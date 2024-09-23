@@ -1,9 +1,40 @@
-# Welcome to your Expo app 👋
+# Project: Beebook App Clone 
+<a name="top"> <a>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Categories
+[Team Member Info](#info)\
+[Topic](#topic)\
+[Project Descriptions](#project)\
+&nbsp;&nbsp;&nbsp; [Technical Stack](#used)\
+&nbsp;&nbsp;&nbsp; [How To Run](#howtouse)\
+&nbsp;&nbsp;&nbsp; [Main Features](#main-features)\
 
-## Get started
+## Team Member Info <a name="info"></a>
 
+Class: **IE307.P11.LT** \
+Team ID: 
+Members:
+| ID   | Name                | Student Code | Note |
+| :--- | :------------------ | :----------- | :--- |
+| 1    | Nguyễn Đỗ Minh Quân | 23550006     |      |
+| 2    | Tiêu Hồng Phúc      | 23550014     |      |
+
+[Go to top](#top)
+
+## Topic <a name="topic"></a>
+
+Build/Clone an app to read novel/manga/manhwa/manhua on mobile
+
+
+## Project Descriptions <a name="project"></a>
+
+### Technical Stack <a name="used"></a>
+
+- Language: Typescript
+- Framework: React Native
+- BaaS: Appwrite
+
+### How To Run <a name="howtouse"></a>
 1. Install dependencies
 
    ```bash
@@ -25,26 +56,14 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Main features <a name="main-features"></a>
+- Register, Login
+- Change password
+- Update profile
+- Search, read books (anyone)
+- Save books (user has logged in)
+- Feed feature: Translation team can create/update/delete posts
+- Feed feature: Other users can like, comment on any post if logged in
+- Translation team: insert/update/delete books
+- Updating...
