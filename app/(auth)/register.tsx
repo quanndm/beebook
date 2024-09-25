@@ -63,7 +63,7 @@ const Register = () => {
                 <View className='items-center mt-6'>
                     <TouchableOpacity activeOpacity={0.7}
                         onPress={() => {
-                            router.push('login')
+                            router.push('/login')
                         }}
                     >
                         <Text className='text-primary text-lg font-semibold'>Đăng nhập</Text>

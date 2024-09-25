@@ -1,11 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { CustomBtnProps } from '@/types'
 
-type CustomBtnProps = {
-    label: string
-    handlePress?: () => void
-    isLoading?: boolean
-}
+
 
 const CustomBtn = (props: CustomBtnProps) => {
     const { label, handlePress, isLoading } = props

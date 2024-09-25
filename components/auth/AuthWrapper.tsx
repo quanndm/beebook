@@ -2,13 +2,9 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
+import { AuthWrapperProps } from '@/types'
 
-type AuthWrapperProps = {
-    headerImage: React.ReactNode
-    children: React.ReactNode,
-    customContainerStyle?: StyleSheet.NamedStyles<any>
-    customContainerClassName?: string
-}
+
 
 const AuthWrapper = (props: AuthWrapperProps) => {
     const { headerImage, children, customContainerStyle, customContainerClassName } = props

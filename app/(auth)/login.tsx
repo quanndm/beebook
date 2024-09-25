@@ -60,7 +60,7 @@ const Login = () => {
                     <TouchableOpacity
                         activeOpacity={0.7}
                         onPress={() => {
-                            router.push('register')
+                            router.push('/register')
                         }}
                     >
                         <Text className='text-primary'>Đăng ký</Text>
@@ -68,7 +68,9 @@ const Login = () => {
                 </View>
 
                 <View className='items-center mt-2'>
-                    <TouchableOpacity activeOpacity={0.7}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => {
+                        router.push('/home')
+                    }}>
                         <Text className='text-primary underline decoration-4'>Bỏ qua phần đăng nhập</Text>
                     </TouchableOpacity>
                 </View>
