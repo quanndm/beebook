@@ -9,7 +9,7 @@ interface MessageModalStore {
     acceptAction: ActionBtn;
     cancelAction?: ActionBtn;
     setModalVisible: (visible: boolean) => void;
-    setinfoModal: (modalVisible: boolean, info: MessageModalProps) => void;
+    setinfoModal: (info: MessageModalProps) => void;
     closeModal: () => void;
     resetModal: () => void;
 }
@@ -22,8 +22,8 @@ const useMessageModalStore = create<MessageModalStore>((set) => ({
     acceptAction: { text: 'Ok', onPress: () => { } },
     cancelAction: undefined,
     setModalVisible: (visible) => set({ modalVisible: visible }),
-    setinfoModal: (visible, info) => {
-        set({ modalVisible: visible, header: info.header, message: info.message, type: info.type, acceptAction: info.acceptAction, cancelAction: info.cancelAction })
+    setinfoModal: (info) => {
+        set({ modalVisible: true, header: info.header, message: info.message, type: info.type, acceptAction: info.acceptAction, cancelAction: info.cancelAction })
     },
     closeModal: () => set({ modalVisible: false }),
     resetModal: () => set({ header: '', message: '', type: 'info', })

@@ -3,7 +3,6 @@ import { Colors } from '@/constants';
 import { useMessageModalStore } from '@/store';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
-import { Alert } from 'react-native';
 
 export default function TabLayout() {
     const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
@@ -20,16 +19,17 @@ export default function TabLayout() {
                 tabBarStyle: {
                     backgroundColor: Colors.Secondary,
                     height: 70,
+                    borderTopWidth: 0,
                 }
             }}
             screenListeners={{
                 tabPress: (e) => {
                     const target = e.target?.split("-")[0];
                     if (target === "account") {
-                        setinfoModal(true, {
+                        setinfoModal({
                             header: 'Thông báo',
                             message: 'Bạn cần đăng nhập để sử dụng chức năng này',
-                            type: 'info',
+                            type: 'warning',
                             acceptAction: {
                                 text: 'Đăng nhập',
                                 onPress: () => {

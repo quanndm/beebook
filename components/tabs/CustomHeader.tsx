@@ -8,7 +8,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
     const { label, showSearch, openSearchModal } = props
 
     return (
-        <View className='flex flex-row justify-between w-full h-[80px] px-5 bg-secondary py-4'>
+        <View className='flex flex-row justify-between w-full h-[80px] px-5 bg-secondary py-4 border-b border-gray-300'>
             <View className='flex gap-2 flex-row items-center'>
                 <Image
                     source={Images.beebook_icon}

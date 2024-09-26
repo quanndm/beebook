@@ -3,6 +3,4 @@ import { Colors } from './Colors'
 export {
     Images,
     Colors
-
-
 }

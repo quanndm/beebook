@@ -3,7 +3,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { NativeWindStyleSheet } from "nativewind";
-import { View, Text } from 'react-native';
 import { MessageModal } from '@/components';
 
 NativeWindStyleSheet.setOutput({
@@ -35,7 +34,7 @@ export default function RootLayout() {
                     }}
                 />
             </Stack>
-            {/* <Toast config={toastConfig} /> */}
+
             <MessageModal />
         </>
     );

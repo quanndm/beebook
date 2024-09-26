@@ -1,15 +1,11 @@
-import AuthWrapper from "./auth/AuthWrapper";
-import CustomInput from './form/CustomInput'
-import CustomBtn from './form/CustomBtn'
-import { CustomIcon } from './common/CustomIcon'
-import TabBarTop from "./common/TabBarTop";
-import TabBarIcon from "./navigation/TabBarIcon";
-import CustomHeader from './tabs/CustomHeader'
-import ComicsTab from "./following/ComicsTab";
-import ReadingTab from "./following/ReadingTab";
-import TranslationTeamTab from "./following/TranslationTeamTab";
-import CustomHeaderModal from "./tabs/CustomHeaderModal";
+import { AuthWrapper } from "./auth";
+import { CustomBtn, CustomInput } from './form'
+import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop } from './common'
+import { ComicsTab, ReadingTab, TranslationTeamTab } from "./following";
 import { Comic, TranslateTeam, MessageModal } from './modal'
+import { WideImageCarousel } from './carousel'
+import { CustomHeader, CustomHeaderModal } from './tabs'
+import { TabBarIcon } from "./navigation";
 
 export {
     AuthWrapper,
@@ -24,5 +20,8 @@ export {
     TabBarTop,
     CustomHeaderModal,
     Comic, TranslateTeam,
-    MessageModal
+    MessageModal,
+    WideImageCarousel,
+    CategoryItemCard,
+    ComicCard
 }

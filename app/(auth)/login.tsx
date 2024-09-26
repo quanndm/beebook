@@ -1,4 +1,4 @@
-import { Image, View, Text, Touchable, TouchableOpacity } from 'react-native'
+import { Image, View, Text,  TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Images } from '@/constants/Images'
 import { AuthWrapper, CustomBtn, CustomInput } from '@/components'

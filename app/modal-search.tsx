@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet, Image, useWindowDimensions } from 'react-native'
+import { View, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
-import { Link, router, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Comic, CustomHeaderModal, TabBarTop, TranslateTeam } from '@/components';
-import { Colors } from '@/constants';
 import { SceneMap, TabView } from 'react-native-tab-view';
 
 
