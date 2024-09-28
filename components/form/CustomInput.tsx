@@ -14,8 +14,8 @@ const CustomInput = (props: FormFieldProps) => {
     return (
         <View className={`space-y-2 ${customContainerStyleClassName ?? "my-4"}`}>
             {label && <Text className='text-base text-gray-100'>{label}</Text>}
-            <View className='border-2 border-gray-400 w-full  px-4 bg-black-100 rounded-3xl focus:border-primary items-center flex-row bg-slate-700'
-                style={{ height: heightInput ?? 64 }}
+            <View className='border-2 border-gray-400 w-full  px-4 bg-black-100 rounded-3xl focus:border-primary items-center flex-row '
+                style={{ height: heightInput ?? 64, backgroundColor: "#3D3D3D" }}
             >
                 <TextInput
                     value={value}

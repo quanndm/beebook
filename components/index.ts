@@ -1,6 +1,6 @@
 import { AuthWrapper } from "./auth";
 import { CustomBtn, CustomInput } from './form'
-import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop } from './common'
+import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop, ComicRanking } from './common'
 import { ComicsTab, ReadingTab, TranslationTeamTab } from "./following";
 import { Comic, TranslateTeam, MessageModal } from './modal'
 import { WideImageCarousel } from './carousel'
@@ -23,5 +23,6 @@ export {
     MessageModal,
     WideImageCarousel,
     CategoryItemCard,
-    ComicCard
+    ComicCard,
+    ComicRanking
 }

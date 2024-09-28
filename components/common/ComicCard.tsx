@@ -1,11 +1,21 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image, ImageSourcePropType, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { Images } from '@/constants'
 
-const ComicCard = () => {
+type ComicCardProps = {
+    id: number
+    image: ImageSourcePropType
+    title: string
+    chapter: number
+}
+
+const ComicCard = (props: ComicCardProps) => {
     return (
-        <View>
-            <Text>ComicCard</Text>
-        </View>
+        <TouchableOpacity className='w-[150px] h-[270px] flex-1 overflow-hidden mr-2'>
+            <Image source={Images.temp_bg_comic_1} resizeMode='cover' className='w-[150px] h-[230px] rounded-2xl' />
+            <Text numberOfLines={1} ellipsizeMode='tail' className='text-white font-semibold'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, deserunt?</Text>
+            <Text className='text-gray-400 text-xs'>Chương 1</Text>
+        </TouchableOpacity >
     )
 }
 

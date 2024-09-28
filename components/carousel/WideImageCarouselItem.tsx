@@ -7,10 +7,10 @@ const WideImageCarouselItem = (props: any) => {
     const { item } = props
     const { width, height } = Dimensions.get('screen')
     return (
-        <View style={{ width, height }} className='items-center rounded-3xl w-full'>
+        <View style={{ width, height }} className='items-center justify-start rounded-3xl w-full'>
             <Image
                 source={{ uri: item.image }}
-                className='h-48 w-[93%] rounded-3xl'
+                className='h-[180px] w-[93%] rounded-3xl'
                 resizeMode='cover'
             />
         </View>

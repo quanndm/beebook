@@ -8,7 +8,7 @@ const CarouselPagination = (props: any) => {
     const { width } = Dimensions.get('screen')
 
     return (
-        <View className='absolute bottom-3 flex-row w-full items-center justify-center gap-1 '>
+        <View className='absolute bottom-6 flex-row w-full items-center justify-center gap-1 '>
             {data.map((_: any, index: number) => {
                 const inputRange = [(index - 1) * width, index * width, (index + 1) * width]
 

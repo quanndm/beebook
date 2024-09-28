@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 import React from 'react'
-import { NavigationState, SceneRendererProps, TabBar } from 'react-native-tab-view';
+import { TabBar } from 'react-native-tab-view';
 import { TabBarTopProps } from '@/types';
 import { Colors } from '@/constants';
 

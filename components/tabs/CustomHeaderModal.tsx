@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import { CustomIcon } from '../common/CustomIcon'
 import { NativeStackHeaderProps } from "@react-navigation/native-stack/src/types";
 import CustomInput from '../form/CustomInput';
+import { Colors } from '@/constants';
 
 const CustomHeaderModal = (props: NativeStackHeaderProps) => {
     const [search, setSearch] = useState("")
     const { navigation } = props
     return (
-        <View className='flex flex-row justify-start items-center w-full h-[70px] px-5 bg-secondary py-4'>
+        <View className='flex flex-row justify-start items-center w-full h-[70px] px-5  py-4' style={{ backgroundColor: Colors.Secondary }}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <CustomIcon name='arrow-back' color={"white"} />
             </TouchableOpacity>
