@@ -1,8 +1,8 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, RefreshControl, FlatList } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors, Images, Comics as fakeDataComic } from '@/constants'
-import { ComicCard, ComicRanking, CustomIcon, WideImageCarousel } from '@/components'
+import { Colors, Comics as fakeDataComic } from '@/constants'
+import { Categories, ComicCard, ComicHorizontalList, ComicRanking, CustomIcon, WideImageCarousel } from '@/components'
 
 const Home = () => {
 
@@ -40,85 +40,7 @@ const Home = () => {
                 </View>
 
                 {/* Categories */}
-                <View className='flex-1 w-full  py-4'>
-                    <View className='flex justify-between flex-row items-center px-4'>
-                        <Text className='text-white font-semibold text-lg'>Phân loại</Text>
-                        <TouchableOpacity activeOpacity={0.7}>
-                            <CustomIcon name='arrow-forward-outline' color={Colors.Primary} suppressHighlighting size={25} />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View className='flex flex-row justify-between items-center h-28 px-4 gap-1 -mb-5'>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap'>
-                                <Image source={Images.category_ngontinh}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                    style={{ transform: [{ scaleY: 0.965 }] }}
-                                />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap '>
-
-                                <Image
-                                    source={Images.category_xuyenkhong}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View className='flex flex-row justify-between items-center h-28 px-4 gap-1 -mb-5'>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap'>
-                                <Image source={Images.category_huyenhuyen}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                // style={{ transform: [{ scale: 0.976 }] }}
-                                />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap '>
-
-                                <Image
-                                    source={Images.category_kinhdi}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                // style={{ transform: [{ scale: 0.976 }] }}
-
-                                />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View className='flex flex-row justify-between items-center h-28 px-4 gap-1'>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap'>
-                                <Image source={Images.category_lgbt}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                // style={{ transform: [{ scale: 0.976 }] }}
-                                />
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity className='w-1/2 h-28 ' activeOpacity={0.7}>
-                            <View className='w-full h-28 flex-row flex-wrap '>
-
-                                <Image
-                                    source={Images.category_hethong}
-                                    className='w-full h-full'
-                                    resizeMode='contain'
-                                // style={{ transform: [{ scale: 0.976 }] }}
-
-                                />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
+                <Categories />
 
                 {/* New update */}
                 <View className='mb-4'>
@@ -130,23 +52,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <FlatList
-                            data={fakeDataComic}
-                            keyExtractor={item => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (
-                                    <ComicCard
-                                        id={item.id}
-                                        image={item.image}
-                                        title={item.title}
-                                        chapter={item.chapter}
-                                    />
-                                )
-                            }}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            className='px-4'
-                        />
+                        <ComicHorizontalList data={fakeDataComic} />
                     </View>
                 </View>
 
@@ -171,23 +77,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <FlatList
-                            data={fakeDataComic}
-                            keyExtractor={item => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (
-                                    <ComicCard
-                                        id={item.id}
-                                        image={item.image}
-                                        title={item.title}
-                                        chapter={item.chapter}
-                                    />
-                                )
-                            }}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            className='px-4'
-                        />
+                        <ComicHorizontalList data={fakeDataComic} />
                     </View>
                 </View>
 
@@ -201,56 +91,25 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <FlatList
-                            data={fakeDataComic}
-                            keyExtractor={item => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (
-                                    <ComicCard
-                                        id={item.id}
-                                        image={item.image}
-                                        title={item.title}
-                                        chapter={item.chapter}
-                                    />
-                                )
-                            }}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            className='px-4'
-                        />
-                    </View>
-
-
-                    {/*  */}
-                    <View className='mb-4'>
-                        <View className='flex justify-between flex-row items-center px-4 mb-4'>
-                            <Text className='text-white font-semibold text-lg'>Học đường </Text>
-                            <TouchableOpacity activeOpacity={0.7}>
-                                <CustomIcon name='arrow-forward-outline' color={Colors.Primary} suppressHighlighting size={25} />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View>
-                            <FlatList
-                                data={fakeDataComic}
-                                keyExtractor={item => item.id.toString()}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <ComicCard
-                                            id={item.id}
-                                            image={item.image}
-                                            title={item.title}
-                                            chapter={item.chapter}
-                                        />
-                                    )
-                                }}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                className='px-4'
-                            />
-                        </View>
+                        <ComicHorizontalList data={fakeDataComic} />
                     </View>
                 </View>
+
+                {/*  */}
+                <View className='mb-4'>
+                    <View className='flex justify-between flex-row items-center px-4 mb-4'>
+                        <Text className='text-white font-semibold text-lg'>Học đường </Text>
+                        <TouchableOpacity activeOpacity={0.7}>
+                            <CustomIcon name='arrow-forward-outline' color={Colors.Primary} suppressHighlighting size={25} />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View>
+                        <ComicHorizontalList data={fakeDataComic} />
+                    </View>
+                </View>
+
+
             </ScrollView>
         </SafeAreaView>
     )

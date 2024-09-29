@@ -49,7 +49,7 @@ const WideImageCarousel = () => {
     }
 
     return (
-        <View className='w-full h-48 rounded-3xl'>
+        <View className='w-full h-48 rounded-2xl'>
             <FlatList
                 data={data}
                 keyExtractor={item => item.id.toString()}

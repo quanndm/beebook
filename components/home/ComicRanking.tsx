@@ -3,43 +3,29 @@ import React from 'react'
 
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Colors } from '@/constants';
-
-const FirstRoute = () => (
-    <View style={{ backgroundColor: Colors.Secondary }} className='rounded-b-2xl flex-1'>
-        <Text className='text-white'>First Route</Text>
-    </View>
-);
-
-const SecondRoute = () => (
-    <View style={{ backgroundColor: Colors.Secondary }} className='rounded-b-2xl flex-1' >
-        <Text className='text-white'>Second Route</Text>
-    </View>
-);
-
-const ThirdRoute = () => (
-    <View style={{ backgroundColor: Colors.Secondary }} className='rounded-b-2xl flex-1' >
-        <Text className='text-white'>Third Route</Text>
-    </View>
-);
+import { FemaleTab, MaleTab, TotalTab } from './rankingTabs';
 
 
-const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-    third: ThirdRoute
-});
 
+
+
+// #TODO: Implement ComicRanking component
 const ComicRanking = () => {
     const layout = useWindowDimensions();
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'First' },
-        { key: 'second', title: 'Second' },
-        { key: 'third', title: 'Third' }
+        { key: 'total', title: 'Tổng' },
+        { key: 'male', title: 'Truyện nam' },
+        { key: 'female', title: 'Truyện nữ' }
     ]);
+    const renderScene = SceneMap({
+        total: TotalTab,
+        male: MaleTab,
+        female: FemaleTab
+    });
     return (
-        <View className='w-full h-[500px] px-4'>
+        <View className='w-full h-[615px] px-4'>
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
@@ -48,9 +34,9 @@ const ComicRanking = () => {
                 renderTabBar={props =>
                     <TabBar
                         style={{ backgroundColor: Colors.Primary, borderTopRightRadius: 15, borderTopLeftRadius: 15 }}
-                        indicatorStyle={{ backgroundColor: Colors.Inactive }}
+                        indicatorStyle={{ backgroundColor: Colors.Inactive, borderWidth: 1, borderColor: Colors.Inactive }}
                         renderLabel={({ route, focused, color }) => (
-                            <Text style={{ color }} className='m-2 font-semibold'>
+                            <Text style={{ color }} className='m-1 font-semibold text-base'>
                                 {route.title}
                             </Text>
                         )}

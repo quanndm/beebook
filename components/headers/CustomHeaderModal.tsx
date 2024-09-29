@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { CustomIcon } from '../common/CustomIcon'
-import { NativeStackHeaderProps } from "@react-navigation/native-stack/src/types";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import CustomInput from '../form/CustomInput';
 import { Colors } from '@/constants';
 

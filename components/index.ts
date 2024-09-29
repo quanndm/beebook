@@ -1,11 +1,12 @@
 import { AuthWrapper } from "./auth";
 import { CustomBtn, CustomInput } from './form'
-import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop, ComicRanking } from './common'
+import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop } from './common'
 import { ComicsTab, ReadingTab, TranslationTeamTab } from "./following";
 import { Comic, TranslateTeam, MessageModal } from './modal'
 import { WideImageCarousel } from './carousel'
-import { CustomHeader, CustomHeaderModal } from './tabs'
+import { CustomHeader, CustomHeaderModal } from './headers'
 import { TabBarIcon } from "./navigation";
+import { Categories, ComicHorizontalList, ComicRanking } from './home'
 
 export {
     AuthWrapper,
@@ -24,5 +25,7 @@ export {
     WideImageCarousel,
     CategoryItemCard,
     ComicCard,
-    ComicRanking
+    ComicRanking,
+    Categories,
+    ComicHorizontalList
 }

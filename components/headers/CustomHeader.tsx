@@ -1,4 +1,4 @@
-import {  Text, View, Image, TouchableOpacity, Alert } from 'react-native'
+import { Text, View, Image, TouchableOpacity, Alert } from 'react-native'
 import React from 'react'
 import { Colors, Images } from '@/constants'
 import { CustomIcon } from '../common/CustomIcon'
@@ -8,7 +8,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
     const { label, showSearch, openSearchModal } = props
 
     return (
-        <View className='flex flex-row justify-between w-full h-[80px] px-5 py-4 border-b border-gray-300' style={{backgroundColor: Colors.Secondary}}>
+        <View className='flex flex-row justify-between w-full h-[80px] px-5 py-4 ' style={{ backgroundColor: Colors.Secondary }}>
             <View className='flex gap-2 flex-row items-center'>
                 <Image
                     source={Images.beebook_icon}

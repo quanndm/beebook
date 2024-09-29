@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const ComicHorizontalList = () => {
+const CustomHeaderDiscover = () => {
     return (
         <View>
-            <Text>ComicHorizontalList</Text>
+            <Text>CustomHeaderDiscover</Text>
         </View>
     )
 }
 
-export default ComicHorizontalList
+export default CustomHeaderDiscover
