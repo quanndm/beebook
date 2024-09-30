@@ -4,7 +4,7 @@ import { CustomIcon, CategoryItemCard, ComicCard, TabBarTop } from './common'
 import { ComicsTab, ReadingTab, TranslationTeamTab } from "./following";
 import { Comic, TranslateTeam, MessageModal } from './modal'
 import { WideImageCarousel } from './carousel'
-import { CustomHeader, CustomHeaderModal } from './headers'
+import { CustomHeader, CustomHeaderModal, CustomHeaderDiscover } from './headers'
 import { TabBarIcon } from "./navigation";
 import { Categories, ComicHorizontalList, ComicRanking } from './home'
 
@@ -27,5 +27,6 @@ export {
     ComicCard,
     ComicRanking,
     Categories,
-    ComicHorizontalList
+    ComicHorizontalList,
+    CustomHeaderDiscover
 }

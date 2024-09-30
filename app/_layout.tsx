@@ -33,7 +33,7 @@ export default function RootLayout() {
                         presentation: 'modal',
                     }}
                 />
-                <Stack.Screen name="discover" options={{ headerShown: false }} />
+                <Stack.Screen name="discover" />
             </Stack>
 
             <MessageModal />
