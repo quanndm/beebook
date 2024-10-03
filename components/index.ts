@@ -7,6 +7,7 @@ import { WideImageCarousel } from './carousel'
 import { CustomHeader, CustomHeaderModal, CustomHeaderDiscover } from './headers'
 import { TabBarIcon } from "./navigation";
 import { Categories, ComicHorizontalList, ComicRanking } from './home'
+import { BottomSheetFilter } from './discover'
 
 export {
     AuthWrapper,
@@ -28,5 +29,6 @@ export {
     ComicRanking,
     Categories,
     ComicHorizontalList,
-    CustomHeaderDiscover
+    CustomHeaderDiscover,
+    BottomSheetFilter
 }

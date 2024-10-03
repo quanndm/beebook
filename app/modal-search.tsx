@@ -1,7 +1,6 @@
 import { View, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { Comic, CustomHeaderModal, TabBarTop, TranslateTeam } from '@/components';
 import { SceneMap, TabView } from 'react-native-tab-view';
 
@@ -36,7 +35,6 @@ const ModalScreen = () => {
                 initialLayout={{ width: layout.width }}
                 renderTabBar={(props) => <TabBarTop {...props} />}
             />
-            <StatusBar hidden />
         </View>
     );
 }

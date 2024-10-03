@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { NativeWindStyleSheet } from "nativewind";
 import { MessageModal } from '@/components';
+import { StatusBar } from 'expo-status-bar';
 
 NativeWindStyleSheet.setOutput({
     default: "native",
@@ -34,9 +35,12 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen name="discover" />
+                <Stack.Screen name="comic" options={{ headerShown: false, }} />
             </Stack>
-
+            
             <MessageModal />
+            <StatusBar hidden />
+
         </>
     );
 }

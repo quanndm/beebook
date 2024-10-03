@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { StatusBar } from 'expo-status-bar'
 import { AuthWrapperProps } from '@/types'
 
 
@@ -17,7 +16,6 @@ const AuthWrapper = (props: AuthWrapperProps) => {
             <View className='flex-1 p-8 overflow-hidden rounded-t-3xl bg-secondary  -top-8'>
                 {children}
             </View>
-            <StatusBar hidden />
         </SafeAreaView>
     )
 }

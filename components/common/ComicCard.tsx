@@ -1,6 +1,7 @@
 import { View, Text, Image, ImageSourcePropType, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Images } from '@/constants'
+import { router } from 'expo-router'
 
 type ComicCardProps = {
     id: number
@@ -15,6 +16,7 @@ const ComicCard = (props: ComicCardProps) => {
     const { customContainerClassName } = props
 
     const handleClick = () => {
+        router.push(`/comic/${props.id}`)
     }
 
     return (
