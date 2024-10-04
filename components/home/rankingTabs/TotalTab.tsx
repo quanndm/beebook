@@ -42,6 +42,8 @@ const TotalTab = () => {
                 scrollEnabled={false}
                 data={fakeData}
                 keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => {
                     return (
                         <TouchableOpacity className={`flex-1 flex-row ${index == fakeData.length - 1 ? "mb-4" : "mb-2"}`} activeOpacity={0.8}>

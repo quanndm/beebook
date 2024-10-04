@@ -19,6 +19,20 @@ const AuthLayout = () => {
                     title: 'Register'
                 }}
             />
+            <Stack.Screen
+                name='account-setting'
+                options={{
+                    headerShown: true,
+                    title: 'Cài đặt tài khoản'
+                }}
+            />
+            <Stack.Screen
+                name='modified-avatar'
+                options={{
+                    headerShown: true,
+                    title: 'Thay đổi ảnh đại diện'
+                }}
+            />
         </Stack>
     )
 }

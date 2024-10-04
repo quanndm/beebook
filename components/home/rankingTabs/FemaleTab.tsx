@@ -39,7 +39,8 @@ const FemaleTab = () => {
         <View style={{ backgroundColor: Colors.Secondary }} className='rounded-b-2xl flex-1 px-3 pt-4'>
             <FlatList
                 scrollEnabled={false}
-
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 data={fakeData}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item, index }) => {

@@ -13,10 +13,10 @@ const Home = () => {
         >
             <ScrollView className='flex-1 w-full h-full'>
                 {/* carousel */}
-                <View className='p-4 rounded-b-3xl' style={{ backgroundColor: Colors.Secondary }}>
+                <View className='rounded-b-3xl' style={{ backgroundColor: Colors.Secondary }}>
                     <WideImageCarousel />
 
-                    <View className='mt-3 flex justify-around items-center flex-row'>
+                    <View className='mt-3 m-4 flex justify-around items-center flex-row'>
                         <TouchableOpacity className='flex justify-center items-center gap-2' activeOpacity={0.7}>
                             <View className='w-9 h-9 rounded-full bg-primary justify-center items-center'>
                                 <CustomIcon name='book-outline' color={"white"} suppressHighlighting size={22} />

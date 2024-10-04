@@ -9,6 +9,28 @@ export default function TabLayout() {
     const openSearchModal = () => {
         router.push('/modal-search')
     }
+    const setInfoWarningAlert = () => {
+        setinfoModal({
+            header: 'Thông báo',
+            message: 'Bạn cần đăng nhập để sử dụng chức năng này',
+            type: 'warning',
+            acceptAction: {
+                text: 'Đăng nhập',
+                onPress: () => {
+                    router.replace('/login');
+                    closeModal()
+                    resetModal()
+                }
+            },
+            cancelAction: {
+                text: 'Đóng',
+                onPress: () => {
+                    closeModal()
+                    resetModal()
+                }
+            }
+        })
+    }
     return (
         <Tabs
             screenOptions={{
@@ -26,27 +48,8 @@ export default function TabLayout() {
                 tabPress: (e) => {
                     const target = e.target?.split("-")[0];
                     if (target === "account") {
-                        setinfoModal({
-                            header: 'Thông báo',
-                            message: 'Bạn cần đăng nhập để sử dụng chức năng này',
-                            type: 'warning',
-                            acceptAction: {
-                                text: 'Đăng nhập',
-                                onPress: () => {
-                                    router.replace('/login');
-                                    closeModal()
-                                    resetModal()
-                                }
-                            },
-                            cancelAction: {
-                                text: 'Đóng',
-                                onPress: () => {
-                                    closeModal()
-                                    resetModal()
-                                }
-                            }
-                        })
-                        e.preventDefault();
+                        // setInfoWarningAlert();
+                        // e.preventDefault();
                     }
                 }
             }}
