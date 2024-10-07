@@ -10,6 +10,7 @@ import category_xuyenkhong from "@/assets/images/category_xuyenkhong.png";
 
 
 import temp_bg_comic_1 from '@/assets/images/temp_bg_comic1.jpg'
+import ellipse_loading from '@/assets/images/Ellipsis.gif'
 
 export const Images = {
     bg_beebook,
@@ -20,5 +21,6 @@ export const Images = {
     category_lgbt,
     category_ngontinh,
     category_xuyenkhong,
-    temp_bg_comic_1
+    temp_bg_comic_1,
+    ellipse_loading
 }

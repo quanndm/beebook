@@ -30,5 +30,5 @@ export {
     Categories,
     ComicHorizontalList,
     CustomHeaderDiscover,
-    BottomSheetFilter
+    BottomSheetFilter,
 }

@@ -1,4 +1,4 @@
-# Project: Beebook App Clone 
+# Project: Beebook App Clone (for study purpose only)
 <a name="top"> <a>
 
 ## Categories
@@ -7,7 +7,7 @@
 [Project Descriptions](#project)\
 &nbsp;&nbsp;&nbsp; [Technical Stack](#used)\
 &nbsp;&nbsp;&nbsp; [How To Run](#howtouse)\
-&nbsp;&nbsp;&nbsp; [Main Features](#main-features)\
+&nbsp;&nbsp;&nbsp; [Main Features](#main-features)
 
 ## Team Member Info <a name="info"></a>
 

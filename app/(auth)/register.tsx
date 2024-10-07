@@ -3,16 +3,97 @@ import React, { useState } from 'react'
 import { Images } from '@/constants/Images'
 import { AuthWrapper, CustomBtn, CustomInput } from '@/components'
 import { router } from 'expo-router'
-
+import { RegisterForm, User } from '@/types'
+import { Appwrite } from '@/configs'
+import { useMessageModalStore, useUserStore } from '@/store'
+// #TODO: test register
 const Register = () => {
+    // store
+    const { setUser, setIsLoggedIn } = useUserStore()
+    const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
 
-    const [form, setForm] = useState({
-        email: '',
-        username: "",
-        password: '',
-        confirmPassword: ''
-    })
+    // state
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const [labelError, setLabelError] = useState("")
+    const [form, setForm] = useState<RegisterForm>(
+        {
+            email: '',
+            username: '',
+            password: '',
+            confirmPassword: ''
+        }
+    )
 
+    // handle
+    const validateForm = () => {
+        if (!form.email || !form.username || !form.password || !form.confirmPassword) {
+            setLabelError("Vui lòng nhập đầy đủ thông tin")
+            return false
+        }
+
+        if (!form.email.match("[a-z0-9\._%+!$&*=^|~#%'`?{}/\-]+@([a-z0-9\-]+\.){1,}([a-z]{2,16})")) {
+            setLabelError("Email không hợp lệ")
+            return false
+        }
+
+        if (form.password.length < 8) {
+            setLabelError("Mật khẩu phải có ít nhất 8 ký tự")
+            return false
+        }
+
+        if (form.password !== form.confirmPassword) {
+            setLabelError("Mật khẩu không trùng khớp")
+            return false
+        }
+
+        return true
+    }
+
+    const onPressRegister = async () => {
+        if (!validateForm()) return
+
+        setLabelError("")
+        setIsSubmitting(true)
+
+        // call api register
+        try {
+            const result = await Appwrite.auth.createUser(form)
+
+            // Save to global state
+            setUser((result as unknown) as User)
+            setIsLoggedIn(true)
+            // redirect to home
+            setinfoModal({
+                header: 'Thông báo',
+                message: 'Đăng ký thành công',
+                type: 'success',
+                acceptAction: {
+                    text: 'Đồng ý',
+                    onPress: () => {
+                        router.replace('/home')
+                        closeModal()
+                        resetModal()
+                    }
+                }
+            })
+        } catch (error: any) {
+            setinfoModal({
+                header: 'Thông báo',
+                message: `Đăng ký thất bại: ${error.message}`,
+                type: 'error',
+                acceptAction: {
+                    text: 'Đồng ý',
+                    onPress: () => {
+                        closeModal()
+                        resetModal()
+                    }
+                }
+            })
+        }
+        finally {
+            setIsSubmitting(false)
+        }
+    }
     return (
         <AuthWrapper
             headerImage={
@@ -39,9 +120,9 @@ const Register = () => {
                 />
 
                 <CustomInput
-                    value={form.email}
+                    value={form.username}
                     onChangeText={(text) => setForm({ ...form, username: text })}
-                    placeholder='Tên hiển thị'
+                    placeholder='Tên hiển thị - Viết liền không dấu'
                 />
 
                 <CustomInput
@@ -57,7 +138,7 @@ const Register = () => {
                 />
 
                 <View className='mt-8'>
-                    <CustomBtn label='Đăng ký' />
+                    <CustomBtn label='Đăng ký' isLoading={isSubmitting} handlePress={onPressRegister} />
                 </View>
 
                 <View className='items-center mt-6'>

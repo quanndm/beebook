@@ -1,11 +1,13 @@
-import { View, Text, ScrollView, TouchableOpacity, Image, RefreshControl, FlatList } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Image, RefreshControl, FlatList, Alert } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Comics as fakeDataComic } from '@/constants'
-import { Categories, ComicCard, ComicHorizontalList, ComicRanking, CustomIcon, WideImageCarousel } from '@/components'
+import { Categories, ComicHorizontalList, ComicRanking, CustomIcon, WideImageCarousel } from '@/components'
 
 const Home = () => {
-
+    const onPressBookIcon = () => {
+        Alert.alert("test")
+    }
     return (
         <SafeAreaView
             className={`flex-1 w-full h-full`}
@@ -17,7 +19,7 @@ const Home = () => {
                     <WideImageCarousel />
 
                     <View className='mt-3 m-4 flex justify-around items-center flex-row'>
-                        <TouchableOpacity className='flex justify-center items-center gap-2' activeOpacity={0.7}>
+                        <TouchableOpacity className='flex justify-center items-center gap-2' activeOpacity={0.7} onPress={onPressBookIcon}>
                             <View className='w-9 h-9 rounded-full bg-primary justify-center items-center'>
                                 <CustomIcon name='book-outline' color={"white"} suppressHighlighting size={22} />
                             </View>

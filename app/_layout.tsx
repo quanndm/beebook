@@ -5,6 +5,9 @@ import 'react-native-reanimated';
 import { NativeWindStyleSheet } from "nativewind";
 import { MessageModal } from '@/components';
 import { StatusBar } from 'expo-status-bar';
+import { Appwrite } from '@/configs';
+import { useUserStore } from '@/store';
+import { User } from '@/types';
 
 NativeWindStyleSheet.setOutput({
     default: "native",
@@ -14,30 +17,25 @@ NativeWindStyleSheet.setOutput({
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-    useEffect(() => {
-        setTimeout(async () => {
-            SplashScreen.hideAsync()
-        }, 1000);
-    }, [])
-
 
 
     return (
         <>
             <Stack>
-                <Stack.Screen name="index" redirect />
+                <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false, }} />
                 <Stack.Screen
                     name="modal-search"
                     options={{
                         presentation: 'modal',
+                        animation: 'slide_from_bottom',
                     }}
                 />
                 <Stack.Screen name="discover" />
                 <Stack.Screen name="comic" options={{ headerShown: false, }} />
             </Stack>
-            
+
             <MessageModal />
             <StatusBar hidden />
 

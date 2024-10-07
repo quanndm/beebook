@@ -1,11 +1,12 @@
 import { CustomHeader, TabBarIcon } from '@/components';
 import { Colors } from '@/constants';
-import { useMessageModalStore } from '@/store';
+import { useMessageModalStore, useUserStore } from '@/store';
 import { router, Tabs } from 'expo-router';
 import React from 'react';
 
 export default function TabLayout() {
     const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
+    const { user, isLoggedIn } = useUserStore()
     const openSearchModal = () => {
         router.push('/modal-search')
     }
@@ -31,6 +32,9 @@ export default function TabLayout() {
             }
         })
     }
+    const checkUserLoggedIn = () => {
+        return isLoggedIn && user ? true : false;
+    }
     return (
         <Tabs
             screenOptions={{
@@ -47,9 +51,9 @@ export default function TabLayout() {
             screenListeners={{
                 tabPress: (e) => {
                     const target = e.target?.split("-")[0];
-                    if (target === "account") {
-                        // setInfoWarningAlert();
-                        // e.preventDefault();
+                    if (target === "account" && !checkUserLoggedIn()) {
+                        setInfoWarningAlert();
+                        e.preventDefault();
                     }
                 }
             }}

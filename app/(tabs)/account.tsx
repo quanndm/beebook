@@ -3,6 +3,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Images } from '@/constants'
 import { router } from 'expo-router'
+import { Appwrite } from '@/configs'
 
 const Account = () => {
     return (
@@ -14,7 +15,7 @@ const Account = () => {
                 <View className='items-center'>
                     <View className='w-[120px] h-[120px] rounded-full bg-white -top-[60px] items-center justify-center'>
                         <Image
-                            source={{uri: "https://avatar.iran.liara.run/public/boy"}}
+                            source={{ uri: "https://avatar.iran.liara.run/public/boy" }}
                             className='w-[110px] h-[110px] rounded-full'
                         />
                     </View>
@@ -67,8 +68,15 @@ const Account = () => {
                                 className='flex-row items-center p-4 rounded-2xl '
                                 style={{ backgroundColor: Colors.Secondary_3 }}
                                 activeOpacity={0.8}
-                                onPress={() => {
-                                    router.push('/(auth)/login')
+                                onPress={async () => {
+                                    try {
+                                        await Appwrite.auth.logOut()
+                                    } catch (error) {
+                                        console.log(error)
+                                    } finally {
+                                        router.push('/(auth)/login')
+                                    }
+
                                 }}
                             >
                                 <View className='w-full'>
