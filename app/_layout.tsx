@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Appwrite } from '@/configs';
 import { useUserStore } from '@/store';
 import { User } from '@/types';
+import { Colors } from '@/constants';
 
 NativeWindStyleSheet.setOutput({
     default: "native",
@@ -37,7 +38,7 @@ export default function RootLayout() {
             </Stack>
 
             <MessageModal />
-            <StatusBar hidden />
+            <StatusBar hidden backgroundColor={Colors.Secondary_1}/>
 
         </>
     );

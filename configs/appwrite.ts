@@ -1,6 +1,8 @@
-import { Client, Account, ID, Avatars, Databases, Query, Storage } from 'react-native-appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID } from '@env'
-import { RegisterForm } from '@/types';
+import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity } from 'react-native-appwrite';
+import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID } from '@env'
+import { RegisterForm, User } from '@/types';
+import * as ImagePicker from 'expo-image-picker';
+import { useUserStore } from '@/store';
 
 const appwriteConfig = {
     endpoint: APPWRITE_ENDPOINT,
@@ -8,6 +10,7 @@ const appwriteConfig = {
     platform: APPWRITE_PLATFORM,
     databaseId: APPWRITE_DATABASE_ID,
     userCollectionId: APPWRITE_USER_COLLECTION_ID,
+    fileStorageId: APPWRITE_FILE_STORAGE_ID
 }
 
 const appwriteClient = new Client()
@@ -20,6 +23,8 @@ const avatars = new Avatars(appwriteClient);
 const databases = new Databases(appwriteClient);
 const storage = new Storage(appwriteClient);
 
+
+// function to handle authen - author
 const logIn = async (email: string, password: string) => {
     try {
         const session = await account.createEmailPasswordSession(email, password);
@@ -30,7 +35,7 @@ const logIn = async (email: string, password: string) => {
     }
 }
 
-export const logOut = async () => {
+const logOut = async () => {
     try {
         const session = await account.deleteSession('current');
 
@@ -70,7 +75,7 @@ const createUser = async (form: Omit<RegisterForm, "confirmPassword">) => {
     }
 }
 
-export const getCurrentUser = async () => {
+const getCurrentUser = async () => {
     try {
         const currentAccount = await account.get();
 
@@ -93,14 +98,64 @@ export const getCurrentUser = async () => {
     }
 }
 
+//  file
+const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
+    if (!file) return
+
+    const { mimeType, fileName, uri, fileSize } = file;
+    const asset = { type: mimeType!, name: fileName!, size: fileSize!, uri: uri };
+
+    try {
+        const response = await storage.createFile(
+            appwriteConfig.fileStorageId,
+            ID.unique(),
+            asset
+        );
+
+        const fileUrl = storage.getFilePreview(
+            appwriteConfig.fileStorageId,
+            response.$id,
+        )
+
+
+        return fileUrl;
+    } catch (error) {
+        console.error(error)
+        throw new Error('Error uploading file')
+    }
+}
+
+const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
+    try {
+        const fileUrl = await uploadFile(file);
+
+        const result = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            user?.$id!,
+            {
+                avatar: fileUrl
+            }
+        )
+
+        return result;
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
 // use this to handle function about authen - author
 const auth = {
     logIn,
     logOut,
     createUser,
-    getCurrentUser
+    getCurrentUser,
+    updateAvatar
 }
 
+// export all functions
 export const Appwrite = {
     appwriteClient,
     account,
@@ -108,5 +163,5 @@ export const Appwrite = {
     databases,
     storage,
     appwriteConfig,
-    auth
+    auth,
 }

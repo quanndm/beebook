@@ -58,12 +58,12 @@ You can start developing by editing the files inside the **app** directory. This
 
 
 ### Main features <a name="main-features"></a>
-- Register, Login
-- Change password
-- Update profile
-- Search, read books (anyone)
-- Save books (user has logged in)
-- Feed feature: Translation team can create/update/delete posts
-- Feed feature: Other users can like, comment on any post if logged in
-- Translation team: insert/update/delete books
-- Updating...
+- [x] Register, Login
+- [ ] Change password
+- [x] Update profile (change avatar)
+- [ ] Search, read books (anyone)
+- [ ] Save books (user has logged in)
+- [ ] Feed feature: Translation team can create/update/delete posts
+- [ ] Feed feature: Other users can like, comment on any post if logged in
+- [ ] Translation team: insert/update/delete books
+- [x] Updating...
