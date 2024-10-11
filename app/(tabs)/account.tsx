@@ -57,11 +57,11 @@ const Account = () => {
                                 style={{ backgroundColor: Colors.Secondary_3 }}
                                 activeOpacity={0.8}
                                 onPress={() => {
-                                    router.push('/(auth)/account-setting')
+                                    router.push('/(auth)/modified-password')
                                 }}
                             >
                                 <View className='w-full'>
-                                    <Text className='text-white text-base'>Cài đặt tài khoản</Text>
+                                    <Text className='text-white text-base'>Thay đổi mật khẩu</Text>
                                 </View>
                             </TouchableOpacity>
 

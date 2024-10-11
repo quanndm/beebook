@@ -33,6 +33,13 @@ const AuthLayout = () => {
                     title: 'Thay đổi ảnh đại diện'
                 }}
             />
+            <Stack.Screen
+                name='modified-password'
+                options={{
+                    headerShown: true,
+                    title: 'Thay đổi mật khẩu'
+                }}
+            />
         </Stack>
     )
 }

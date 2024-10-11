@@ -10,24 +10,16 @@ import { Appwrite } from '@/configs'
 import { User } from '@/types'
 
 import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
     MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
+
 } from 'react-native-indicators';
 
 
-// #TODO: Implement ModifiedAvatar
 const ModifiedAvatar = () => {
     const { user, setAvatar } = useUserStore()
     const [image, setImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
     const [isUploading, setIsUploading] = useState(false)
-
+    
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -58,9 +50,9 @@ const ModifiedAvatar = () => {
         try {
             // save avatar
             const result = await Appwrite.auth.updateAvatar(image!, user!)
-            const { avatar } = (result as unknown) as User
+            const { avatar, avatarId } = (result as unknown) as User
 
-            setAvatar(avatar)
+            setAvatar(avatar, avatarId!)
 
             // navigate back
             router.back()
@@ -80,10 +72,11 @@ const ModifiedAvatar = () => {
                     headerLeft: (props) => (
                         <CustomIcon
                             name='arrow-back-outline'
-                            size={24}
+                            size={26}
                             onPress={() => router.back()}
                             className='mr-4'
                             color={"white"}
+                            disabled={isUploading}
                         />
                     ),
                     headerRight: (props) => {

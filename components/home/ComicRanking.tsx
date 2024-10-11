@@ -5,11 +5,6 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Colors } from '@/constants';
 import { FemaleTab, MaleTab, TotalTab } from './rankingTabs';
 
-
-
-
-
-// #TODO: Implement ComicRanking component
 const ComicRanking = () => {
     const layout = useWindowDimensions();
 

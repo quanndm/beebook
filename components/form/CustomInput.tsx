@@ -5,17 +5,16 @@ import { CustomIcon } from '../common/CustomIcon'
 
 
 const CustomInput = (props: FormFieldProps) => {
-    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput } = props
-    const [showPassword, setShowPassword] = useState(false)
-    const conditionOfPassword = () => {
-        return [label, placeholder].includes('Password') || [label, placeholder].includes('Confirm Password')
-    }
+    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput, secureTextEntry } = props
+    const [showPassword, setShowPassword] = useState(secureTextEntry)
 
     return (
         <View className={`space-y-2 ${customContainerStyleClassName ?? "my-4"}`}>
             {label && <Text className='text-base text-gray-100'>{label}</Text>}
-            <View className='border-2 border-gray-400 w-full  px-4 bg-black-100 rounded-3xl focus:border-primary items-center flex-row '
-                style={{ height: heightInput ?? 64, backgroundColor: "#3D3D3D" }}
+            <View className='border-2 border-gray-400 w-full  px-4 bg-black-100 rounded-2xl focus:border-primary items-center flex-row '
+                style={[
+                    { height: heightInput ?? 64, backgroundColor: "#3D3D3D", },
+                ]}
             >
                 <TextInput
                     value={value}
@@ -30,12 +29,10 @@ const CustomInput = (props: FormFieldProps) => {
                     placeholder={placeholder}
                     placeholderTextColor={'#8b8b8f'}
                     className='w-full h-full flex-1 text-white font-semibold text-base '
-                    secureTextEntry={conditionOfPassword() && !showPassword}
+                    secureTextEntry={showPassword}
                 />
-                {conditionOfPassword() && (
+                {secureTextEntry && (
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                        {/* <Image source={!showPassword ? icons.eye : icons.eyeHide} className='w-6 h-6' /> */}
-
                         <CustomIcon name={!showPassword ? 'eye-outline' : 'eye-off-outline'} size={24} color='#8b8b8f' />
                     </TouchableOpacity>
                 )}

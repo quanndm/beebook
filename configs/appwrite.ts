@@ -98,6 +98,26 @@ const getCurrentUser = async () => {
     }
 }
 
+const logOutAllSessions = async () => {
+    try {
+        const result = await account.deleteSessions();
+        return result;
+    } catch (error) {
+        console.error(error)
+        throw new Error('Error signing out all sessions')
+    }
+}
+
+const updatePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+        const result = await account.updatePassword(newPassword, currentPassword);
+        return result;
+    } catch (error) {
+        console.error(error)
+        throw new Error('Error updating password')
+    }
+}
+
 //  file
 const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
     if (!file) return
@@ -118,7 +138,7 @@ const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
         )
 
 
-        return fileUrl;
+        return { fileUrl, fileId: response.$id };
     } catch (error) {
         console.error(error)
         throw new Error('Error uploading file')
@@ -127,14 +147,19 @@ const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
 
 const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
     try {
-        const fileUrl = await uploadFile(file);
+        const response = await uploadFile(file);
+
+        if (user.avatarId) {
+            await storage.deleteFile(appwriteConfig.fileStorageId, user.avatarId)
+        }
 
         const result = await databases.updateDocument(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
             user?.$id!,
             {
-                avatar: fileUrl
+                avatar: response?.fileUrl,
+                avatarId: response?.fileId
             }
         )
 
@@ -152,16 +177,17 @@ const auth = {
     logOut,
     createUser,
     getCurrentUser,
-    updateAvatar
+    updateAvatar,
+    logOutAllSessions,
+    updatePassword,
+
 }
 
 // export all functions
 export const Appwrite = {
-    appwriteClient,
-    account,
-    avatars,
-    databases,
-    storage,
-    appwriteConfig,
     auth,
 }
+
+// #TODO: test change avatar, update password
+// #TODO: design database for translation team
+//  post, comment, translationTeam, translationTeam_detail, comic_category, comic, comic_chapter, bookmark, history

@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 import { RegisterForm, User } from '@/types'
 import { Appwrite } from '@/configs'
 import { useMessageModalStore, useUserStore } from '@/store'
-// #TODO: test register
+
 const Register = () => {
     // store
     const { setUser, setIsLoggedIn } = useUserStore()
@@ -129,12 +129,14 @@ const Register = () => {
                     value={form.password}
                     onChangeText={(text) => setForm({ ...form, password: text })}
                     placeholder='Password'
+                    secureTextEntry
                 />
 
                 <CustomInput
                     value={form.confirmPassword}
                     onChangeText={(text) => setForm({ ...form, confirmPassword: text })}
                     placeholder='Confirm Password'
+                    secureTextEntry
                 />
 
                 <View className='mt-8'>

@@ -8,7 +8,7 @@ const useUserStore = create<UserGlobalState & UserGlobalStoreActions>((set) => (
     setIsLoading: (bool: boolean) => set((state) => ({ ...state, isLoading: bool })),
     setIsLoggedIn: (bool: boolean) => set((state) => ({ ...state, isLoggedIn: bool })),
     setUser: (user?: User | null) => set((state) => ({ ...state, user: user ? { ...user } : null })),
-    setAvatar: (image: string) => set((state) => ({ ...state, user: state.user ? { ...state.user, avatar: image } : null })),
+    setAvatar: (image: string, fileId: string) => set((state) => ({ ...state, user: state.user ? { ...state.user, avatar: image, avatarId: fileId } : null })),
     reset: () => set((state) => ({ ...state, user: null, isLoggedIn: false })),
 }));
 
