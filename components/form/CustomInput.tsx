@@ -5,7 +5,7 @@ import { CustomIcon } from '../common/CustomIcon'
 
 
 const CustomInput = (props: FormFieldProps) => {
-    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput, secureTextEntry } = props
+    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput, secureTextEntry, editable } = props
     const [showPassword, setShowPassword] = useState(secureTextEntry)
 
     return (
@@ -30,6 +30,7 @@ const CustomInput = (props: FormFieldProps) => {
                     placeholderTextColor={'#8b8b8f'}
                     className='w-full h-full flex-1 text-white font-semibold text-base '
                     secureTextEntry={showPassword}
+                    editable={editable ?? true}
                 />
                 {secureTextEntry && (
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>

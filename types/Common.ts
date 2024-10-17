@@ -5,12 +5,13 @@ export type FormFieldProps = {
     label?: string;
     heightInput?: number;
     value: string;
-    onChangeText: (text: string) => void;
+    onChangeText?: (text: string) => void;
     placeholder?: string;
     customContainerStyleClassName?: string;
     isSearch?: boolean;
     secureTextEntry?: boolean;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad';
+    editable?: boolean;
 }
 
 export type AuthWrapperProps = {
@@ -37,6 +38,7 @@ export type CustomHeaderProps = {
     label: string
     showSearch?: boolean
     openSearchModal?: () => void
+    openNotificationModal?: () => void
 }
 
 export type AlertType = 'info' | 'warning' | 'error' | 'success'

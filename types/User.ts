@@ -1,10 +1,15 @@
+import { Team } from "./Team";
+
 export type User = {
     $id: string;
+    $permissions: string[];
     accountId: string;
     username: string;
     email: string;
     avatar: string;
     avatarId?: string;
+    translationTeams?: Team;
+
 }
 
 export type UserGlobalState = {

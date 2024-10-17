@@ -1,8 +1,8 @@
-import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity } from 'react-native-appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID } from '@env'
-import { RegisterForm, User } from '@/types';
+import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity, Permission, Role } from 'react-native-appwrite';
+import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID } from '@env'
+import { FormCreateTeam, RegisterForm, Team, User } from '@/types';
 import * as ImagePicker from 'expo-image-picker';
-import { useUserStore } from '@/store';
+
 
 const appwriteConfig = {
     endpoint: APPWRITE_ENDPOINT,
@@ -10,6 +10,7 @@ const appwriteConfig = {
     platform: APPWRITE_PLATFORM,
     databaseId: APPWRITE_DATABASE_ID,
     userCollectionId: APPWRITE_USER_COLLECTION_ID,
+    translationTeamCollectionId: APPWRITE_TRANSLATION_TEAM_COLLECTION_ID,
     fileStorageId: APPWRITE_FILE_STORAGE_ID
 }
 
@@ -170,7 +171,55 @@ const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
 
 }
 
+// translationTeam
+const createTeam = async (form: FormCreateTeam) => {
+    try {
+        const response = await uploadFile(form.file);
 
+        const newTeam = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.translationTeamCollectionId,
+            ID.unique(),
+            {
+                name: form.name,
+                avatar: response?.fileUrl,
+                avatarId: response?.fileId,
+                owner: form.owner.$id,
+                members: [
+                    form.owner.$id,
+                ],
+                dateCreated: new Date().toISOString(),
+                invitationCode: form.invitationCode
+            },
+            form.owner.$permissions
+        )
+        // [
+        //     Permission.read(Role.any()),
+        //     Permission.write(Role.any()),
+        //     Permission.delete(Role.user(form.owner.$id))
+        // ]
+        return newTeam;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const jointTeam = async (code: string, user: User) => { }
+
+const leaveTeam = async (team: Team, user: User) => { }
+
+const getTeamInfo = async (teamId: string) => {
+    try {
+        const team = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.translationTeamCollectionId,
+            teamId
+        )
+        return team;
+    } catch (error) {
+        console.log(error)
+    }
+}
 // use this to handle function about authen - author
 const auth = {
     logIn,
@@ -183,9 +232,17 @@ const auth = {
 
 }
 
+// use this to handle function about team
+const team = {
+    createTeam,
+    jointTeam,
+    getTeamInfo
+}
+
 // export all functions
 export const Appwrite = {
     auth,
+    team
 }
 
 // #TODO: test change avatar, update password

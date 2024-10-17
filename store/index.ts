@@ -1,4 +1,5 @@
 import useMessageModalStore from "./MessageModalStore";
 import useUserStore from "./UserStore"
+import useTeamStore from "./TeamStore"
 
-export { useMessageModalStore, useUserStore };
+export { useMessageModalStore, useUserStore, useTeamStore };

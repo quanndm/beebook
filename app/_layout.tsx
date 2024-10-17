@@ -27,18 +27,25 @@ export default function RootLayout() {
                 <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false, }} />
                 <Stack.Screen
-                    name="modal-search"
+                    name="search"
                     options={{
                         presentation: 'modal',
                         animation: 'slide_from_bottom',
                     }}
                 />
-                <Stack.Screen name="discover" />
+                <Stack.Screen
+                    name="notification"
+                    options={{
+                        presentation: 'modal',
+                        animation: 'slide_from_right',
+                    }}
+                />
                 <Stack.Screen name="comic" options={{ headerShown: false, }} />
+                <Stack.Screen name="(team)" options={{ headerShown: false, }} />
             </Stack>
 
             <MessageModal />
-            <StatusBar hidden backgroundColor={Colors.Secondary_1}/>
+            <StatusBar hidden backgroundColor={Colors.Secondary_1} />
 
         </>
     );

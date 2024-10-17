@@ -8,6 +8,7 @@ import { CustomHeader, CustomHeaderModal, CustomHeaderDiscover } from './headers
 import { TabBarIcon } from "./navigation";
 import { Categories, ComicHorizontalList, ComicRanking } from './home'
 import { BottomSheetFilter } from './discover'
+import { ModalTeam, ModalTeamJoin } from './account'
 
 export {
     AuthWrapper,
@@ -31,4 +32,6 @@ export {
     ComicHorizontalList,
     CustomHeaderDiscover,
     BottomSheetFilter,
+    ModalTeam,
+    ModalTeamJoin
 }

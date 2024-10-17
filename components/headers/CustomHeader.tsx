@@ -5,7 +5,7 @@ import { CustomIcon } from '../common/CustomIcon'
 import { CustomHeaderProps } from '@/types'
 
 const CustomHeader = (props: CustomHeaderProps) => {
-    const { label, showSearch, openSearchModal } = props
+    const { label, showSearch, openSearchModal, openNotificationModal } = props
 
     return (
         <View className='flex flex-row justify-between w-full h-[80px] px-5 py-4 ' style={{ backgroundColor: Colors.Secondary }}>
@@ -29,7 +29,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
                 }
 
                 <TouchableOpacity
-                    onPress={() => Alert.alert('Notification', 'Notification')}
+                    onPress={openNotificationModal}
                 >
                     <CustomIcon name='notifications-outline' color='white' size={28} />
                 </TouchableOpacity>

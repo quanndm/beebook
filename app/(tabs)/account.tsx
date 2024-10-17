@@ -1,14 +1,18 @@
-import { Image, ImageBackground, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Image, Modal, Text, TouchableOpacity, View, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors, Images } from '@/constants'
+import { Colors, } from '@/constants'
 import { router } from 'expo-router'
 import { Appwrite } from '@/configs'
-import { useUserStore } from '@/store'
+import { useTeamStore, useUserStore } from '@/store'
+import { ModalTeam, ModalTeamJoin } from '@/components'
 
 const Account = () => {
     const { user, reset: resetStoreUser } = useUserStore()
-
+    const { team } = useTeamStore()
+    const [visibleModal, setVisibleModal] = useState(false)
+    // const [hasTranslateTeam, setHasTranslateTeam] = useState(false)
+    const [visibleModalJoin, setVisibleModalJoin] = useState(false)
     // handle
     const logout = async () => {
         try {
@@ -20,6 +24,13 @@ const Account = () => {
         }
     }
 
+    const createTeam = async () => {
+
+    }
+
+    const joinTeam = async () => { }
+
+    // #TODO: design UI for translation team
     return (
         <SafeAreaView className='h-full w-full flex-1' style={{ backgroundColor: Colors.Secondary_1 }}>
             <View className='w-100 h-[25%] bg-primary' >
@@ -52,6 +63,7 @@ const Account = () => {
 
                         {/* link */}
                         <View className='p-4'>
+                            {/* item 1 */}
                             <TouchableOpacity
                                 className='flex-row items-center p-4 mb-4 rounded-2xl '
                                 style={{ backgroundColor: Colors.Secondary_3 }}
@@ -65,6 +77,7 @@ const Account = () => {
                                 </View>
                             </TouchableOpacity>
 
+                            {/* item 2 */}
                             <TouchableOpacity
                                 className='flex-row items-center p-4 mb-4 rounded-2xl '
                                 style={{ backgroundColor: Colors.Secondary_3 }}
@@ -78,6 +91,34 @@ const Account = () => {
                                 </View>
                             </TouchableOpacity>
 
+                            {/* item 3 */}
+                            {
+                                !team ? (
+                                    <TouchableOpacity
+                                        className='flex-row items-center p-4 mb-4 rounded-2xl '
+                                        style={{ backgroundColor: Colors.Secondary_3 }}
+                                        activeOpacity={0.8}
+                                        onPress={() => setVisibleModal(true)}
+                                    >
+                                        <View className='w-full'>
+                                            <Text className='text-white text-base'>Đăng ký nhóm dịch truyện</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity
+                                        className='flex-row items-center p-4 mb-4 rounded-2xl '
+                                        style={{ backgroundColor: Colors.Secondary_3 }}
+                                        activeOpacity={0.8}
+                                        onPress={() => router.push('/(team)/')}
+                                    >
+                                        <View className='w-full'>
+                                            <Text className='text-white text-base'>Quản lý nhóm</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )
+                            }
+
+                            {/* item 4 */}
                             <TouchableOpacity
                                 className='flex-row items-center p-4 rounded-2xl '
                                 style={{ backgroundColor: Colors.Secondary_3 }}
@@ -92,6 +133,15 @@ const Account = () => {
                     </View>
                 </View>
             </View>
+            <ModalTeam
+                setVisible={setVisibleModal}
+                visible={visibleModal}
+                setVisibleModalJoin={setVisibleModalJoin}
+            />
+            <ModalTeamJoin
+                setVisible={setVisibleModalJoin}
+                visible={visibleModalJoin}
+            />
         </SafeAreaView>
     )
 }

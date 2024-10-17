@@ -33,6 +33,7 @@ Build/Clone an app to read novel/manga/manhwa/manhua on mobile
 - Language: Typescript
 - Framework: React Native
 - BaaS: Appwrite
+- Style: NativeWind
 
 ### How To Run <a name="howtouse"></a>
 1. Install dependencies
@@ -60,11 +61,11 @@ You can start developing by editing the files inside the **app** directory. This
 ### Main features <a name="main-features"></a>
 - [x] Register, Login
 - [x] Change password
-- [x] Update profile (change avatar)
+- [x] Update profile (change avatar, create new Translation team)
+- [ ] Translation team: insert new categories of comic
+- [ ] Translation team: insert/update/delete books
+- [ ] Feed feature: Other users can like, comment on any post if logged in
+- [ ] Feed feature: Translation team can create/update/delete posts
 - [ ] Search, read books (anyone)
 - [ ] Save books (user has logged in)
-- [ ] Feed feature: Translation team can create/update/delete posts
-- [ ] Feed feature: Other users can like, comment on any post if logged in
-- [ ] Translation team: insert/update/delete books
-- [ ] Translation team: insert new categories of comic
 - [x] Updating...

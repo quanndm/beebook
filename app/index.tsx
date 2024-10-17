@@ -1,34 +1,41 @@
 import { Appwrite } from '@/configs'
 import { Images } from '@/constants'
-import { useUserStore } from '@/store'
-import { User } from '@/types'
+import { useTeamStore, useUserStore } from '@/store'
+import { Team, User } from '@/types'
 import { Redirect } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { View, Image } from 'react-native'
 
 const index = () => {
     const { setUser, setIsLoggedIn, setIsLoading, user } = useUserStore()
+    const { setTeam } = useTeamStore()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        Appwrite.auth.getCurrentUser()
-            .then((result) => {
+        (async () => {
+            try {
+                const result = await Appwrite.auth.getCurrentUser();
                 if (result) {
-                    const user = (result as unknown) as User
-                    setUser(user)
-                    setIsLoggedIn(true)
+                    const user = (result as unknown) as User;
+
+                    setUser(user);
+                    setIsLoggedIn(true);
+
+                    const team = await Appwrite.team.getTeamInfo(user.translationTeams!.$id);
+                    if (team) {
+                        setTeam(team as unknown as Team);
+                    }
                 } else {
-                    setUser(null)
-                    setIsLoggedIn(false)
+                    setUser(null);
+                    setIsLoggedIn(false);
                 }
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-            .finally(() => {
-                setIsLoading(false)
-                setLoading(false)
-            })
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+                setLoading(false);
+            }
+        })();
     }, [])
 
     if (loading) {

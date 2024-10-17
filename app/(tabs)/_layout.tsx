@@ -8,7 +8,10 @@ export default function TabLayout() {
     const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
     const { user, isLoggedIn } = useUserStore()
     const openSearchModal = () => {
-        router.push('/modal-search')
+        router.push('/search')
+    }
+    const openNotificationModal = () => {
+        router.push('/notification')
     }
     const setInfoWarningAlert = () => {
         setinfoModal({
@@ -71,7 +74,7 @@ export default function TabLayout() {
                         />
                     ),
                     headerShown: true,
-                    header: (props) => <CustomHeader label='Trang chủ' showSearch openSearchModal={openSearchModal} />,
+                    header: (props) => <CustomHeader label='Trang chủ' showSearch openSearchModal={openSearchModal} openNotificationModal={openNotificationModal} />,
 
                 }}
 
@@ -90,7 +93,7 @@ export default function TabLayout() {
                         />
                     ),
                     headerShown: true,
-                    header: (props) => <CustomHeader label='Theo dõi' />,
+                    header: (props) => <CustomHeader label='Theo dõi' openNotificationModal={openNotificationModal} />,
                 }}
             />
 
@@ -107,7 +110,7 @@ export default function TabLayout() {
                         />
                     ),
                     headerShown: true,
-                    header: (props) => <CustomHeader label='Bảng tin' />,
+                    header: (props) => <CustomHeader label='Bảng tin' openNotificationModal={openNotificationModal} />,
                 }}
             />
 

@@ -1,20 +1,7 @@
-import { ActionBtn, AlertType, MessageModalProps } from '@/types';
+import { MessageModalStore, MessageModalStoreActions } from '@/types';
 import { create } from 'zustand'
 
-interface MessageModalStore {
-    modalVisible: boolean;
-    header: string;
-    message: string;
-    type: AlertType;
-    acceptAction: ActionBtn;
-    cancelAction?: ActionBtn;
-    setModalVisible: (visible: boolean) => void;
-    setinfoModal: (info: MessageModalProps) => void;
-    closeModal: () => void;
-    resetModal: () => void;
-}
-
-const useMessageModalStore = create<MessageModalStore>((set) => ({
+const useMessageModalStore = create<MessageModalStore & MessageModalStoreActions>((set) => ({
     modalVisible: false,
     header: 'header',
     message: 'message',
