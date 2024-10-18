@@ -18,7 +18,7 @@ const Account = () => {
         try {
             await Appwrite.auth.logOut()
             resetStoreUser()
-            router.replace('/sign-in')
+            router.replace('/(auth)/login')
         } catch (error) {
             console.error(error)
         }
