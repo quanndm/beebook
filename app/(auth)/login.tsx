@@ -96,7 +96,7 @@ const Login = () => {
                 />
             }
         >
-            <ScrollView>
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
                 <View className='flex flex-col items-center'>
                     <Image
                         source={Images.beebook_icon}
