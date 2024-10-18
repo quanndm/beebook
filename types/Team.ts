@@ -9,7 +9,7 @@ export type Team = {
     members: User[];
     owner: User;
     dateCreated: string;
-    invitaionCode: string;
+    invitationCode: string;
 }
 
 export type FormCreateTeam = {

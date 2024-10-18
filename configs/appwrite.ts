@@ -204,7 +204,9 @@ const createTeam = async (form: FormCreateTeam) => {
     }
 }
 
-const jointTeam = async (code: string, user: User) => { }
+const jointTeam = async (code: string, user: User) => {
+
+}
 
 const leaveTeam = async (team: Team, user: User) => { }
 

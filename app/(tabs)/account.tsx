@@ -24,11 +24,6 @@ const Account = () => {
         }
     }
 
-    const createTeam = async () => {
-
-    }
-
-    const joinTeam = async () => { }
 
     // #TODO: design UI for translation team
     return (

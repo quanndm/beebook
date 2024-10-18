@@ -66,6 +66,6 @@ You can start developing by editing the files inside the **app** directory. This
 - [ ] Translation team: insert/update/delete books
 - [ ] Feed feature: Other users can like, comment on any post if logged in
 - [ ] Feed feature: Translation team can create/update/delete posts
-- [ ] Search, read books (anyone)
-- [ ] Save books (user has logged in)
+- [ ] Search, read comics (anyone)
+- [ ] Save comics (user has logged in)
 - [x] Updating...

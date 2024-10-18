@@ -6,7 +6,11 @@ const TeamLayout = () => {
         <>
             <Stack>
                 <Stack.Screen name='create' />
-                <Stack.Screen name='index' />
+                <Stack.Screen name='index' options={{ headerShown: false }} />
+                <Stack.Screen name="category-management" />
+                <Stack.Screen name="member-management" />
+                <Stack.Screen name="comic-management" />
+                <Stack.Screen name="post-management" />
             </Stack>
         </>
     )
