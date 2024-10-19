@@ -205,7 +205,33 @@ const createTeam = async (form: FormCreateTeam) => {
 }
 
 const jointTeam = async (code: string, user: User) => {
+    try {
+        const team = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.translationTeamCollectionId,
+            [Query.equal('invitationCode', code)]
+        )
+        if (!team) {
+            throw new Error('Error getting team')
+        }
 
+        const teamId = team.documents[0].$id;
+        const members = team.documents[0].members;
+        members.push(user.$id);
+        const result = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.translationTeamCollectionId,
+            teamId,
+            {
+                members
+            },
+            user.$permissions
+        )
+
+        return result;
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const leaveTeam = async (team: Team, user: User) => { }
@@ -247,6 +273,4 @@ export const Appwrite = {
     team
 }
 
-// #TODO: test change avatar, update password
-// #TODO: design database for translation team
 //  post, comment, translationTeam, translationTeam_detail, comic_category, comic, comic_chapter, bookmark, history

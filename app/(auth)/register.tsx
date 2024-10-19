@@ -110,6 +110,7 @@ const Register = () => {
                         className='w-14 h-14 rounded-lg'
                     />
                     <Text className='text-2xl font-bold mt-2 text-white'>Bee book</Text>
+                    {labelError && <Text className='text-red-300 text-base'>{labelError}</Text>}
                 </View>
 
                 <View className='flex-1 h-full '>

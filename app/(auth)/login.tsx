@@ -3,14 +3,15 @@ import React, { useState } from 'react'
 import { Images } from '@/constants/Images'
 import { AuthWrapper, CustomBtn, CustomInput } from '@/components'
 import { router } from 'expo-router'
-import { RegisterForm, User } from '@/types'
-import { useMessageModalStore, useUserStore } from '@/store'
+import { RegisterForm, Team, User } from '@/types'
+import { useMessageModalStore, useTeamStore, useUserStore } from '@/store'
 import { Appwrite } from '@/configs'
 
 const Login = () => {
     // store
     const { setUser, setIsLoggedIn } = useUserStore()
     const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
+    const { setTeam } = useTeamStore()
 
     // state
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -51,9 +52,10 @@ const Login = () => {
 
         try {
             await Appwrite.auth.logIn(form.email, form.password)
-            const result = Appwrite.auth.getCurrentUser()
+            const result = await Appwrite.auth.getCurrentUser()
+            const user = (result as unknown) as User
 
-            setUser((result as unknown) as User)
+            setUser(user)
             setIsLoggedIn(true)
 
             setinfoModal({

@@ -22,6 +22,7 @@ export type UserGlobalStoreActions = {
     setIsLoading: (bool: boolean) => void
     setIsLoggedIn: (bool: boolean) => void
     setUser: (user?: User | null) => void
+    setUserTeam: (team: Team) => void
     setAvatar: (image: string, fileId: string) => void
     reset: () => void
 }

@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { CustomBtnProps } from '@/types'
-
+import { MaterialIndicator } from 'react-native-indicators'
 
 
 const CustomBtn = (props: CustomBtnProps) => {
@@ -12,7 +12,14 @@ const CustomBtn = (props: CustomBtnProps) => {
             activeOpacity={0.7}
             disabled={isLoading}
         >
-            <Text className='text-white text-lg tracking-wide'>{label}</Text>
+            <View className='flex-row items-center justify-center'>
+                {isLoading && (
+                    <View className='mr-2'>
+                        <MaterialIndicator size={18} color="#fff" />
+                    </View>
+                )}
+                <Text className='text-white text-lg tracking-wide'>{label}</Text>
+            </View>
         </TouchableOpacity>
     )
 }

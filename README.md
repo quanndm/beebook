@@ -61,8 +61,8 @@ You can start developing by editing the files inside the **app** directory. This
 ### Main features <a name="main-features"></a>
 - [x] Register, Login
 - [x] Change password
-- [x] Update profile (change avatar, create new Translation team)
-- [ ] Translation team: insert new categories of comic
+- [x] Update profile (change avatar, create new Translation team, join team)
+- [ ] Translation team: Insert a new category for a comic,  update name of category, delete the category if the comic doesn't exist.
 - [ ] Translation team: insert/update/delete books
 - [ ] Feed feature: Other users can like, comment on any post if logged in
 - [ ] Feed feature: Translation team can create/update/delete posts

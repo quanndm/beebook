@@ -1,31 +1,41 @@
 import { Image, Modal, Text, TouchableOpacity, View, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, } from '@/constants'
 import { router } from 'expo-router'
 import { Appwrite } from '@/configs'
 import { useTeamStore, useUserStore } from '@/store'
 import { ModalTeam, ModalTeamJoin } from '@/components'
+import { Team } from '@/types'
 
 const Account = () => {
     const { user, reset: resetStoreUser } = useUserStore()
-    const { team } = useTeamStore()
+    const { team, setTeam, reset: resetTeam } = useTeamStore()
     const [visibleModal, setVisibleModal] = useState(false)
-    // const [hasTranslateTeam, setHasTranslateTeam] = useState(false)
     const [visibleModalJoin, setVisibleModalJoin] = useState(false)
     // handle
     const logout = async () => {
         try {
             await Appwrite.auth.logOut()
             resetStoreUser()
+            resetTeam()
             router.replace('/(auth)/login')
         } catch (error) {
             console.error(error)
         }
     }
 
+    useLayoutEffect(() => {
+        if (!team && user?.translationTeams) {
+            Appwrite.team.getTeamInfo(user!.translationTeams!.$id).then((_team) => {
+                if (_team) {
+                    setTeam(_team as unknown as Team);
+                }
+            });
+        }
 
-    // #TODO: design UI for translation team
+    }, [])
+
     return (
         <SafeAreaView className='h-full w-full flex-1' style={{ backgroundColor: Colors.Secondary_1 }}>
             <View className='w-100 h-[25%] bg-primary' >
