@@ -7,10 +7,11 @@ const TeamLayout = () => {
             <Stack>
                 <Stack.Screen name='create' />
                 <Stack.Screen name='index' options={{ headerShown: false }} />
-                <Stack.Screen name="category-management" />
-                <Stack.Screen name="member-management" />
-                <Stack.Screen name="comic-management" />
-                <Stack.Screen name="post-management" />
+                <Stack.Screen name="category" options={{ headerShown: false }} />
+                <Stack.Screen name="member" options={{ headerShown: false }} />
+                <Stack.Screen name="comic" options={{ headerShown: false }} />
+                <Stack.Screen name="post" options={{ headerShown: false }} />
+                <Stack.Screen name="info" options={{ headerShown: false }} />
             </Stack>
         </>
     )

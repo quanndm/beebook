@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { router, Stack } from 'expo-router'
+import React from 'react'
+import { router } from 'expo-router'
 import { CustomIcon } from '@/components'
 import { Colors } from '@/constants'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -46,7 +46,9 @@ const TeamManagement = () => {
                     <View className='px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
                         {/* row 1 */}
                         <View className='m-4 flex justify-between items-center flex-row'>
-                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => { }}>
+                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => {
+                                router.push('/(team)/info')
+                            }}>
                                 <View className='w-12 h-12 rounded-md bg-blue-300 justify-center items-center'>
                                     <CustomIcon name='information-circle-outline' color={"white"} suppressHighlighting size={22} />
                                 </View>
@@ -56,7 +58,7 @@ const TeamManagement = () => {
                                 className='flex justify-center items-center gap-2 w-[30%]'
                                 activeOpacity={0.7}
                                 onPress={() => {
-                                    router.push('/(team)/category-management')
+                                    router.push('/(team)/category')
                                 }}
                             >
                                 <View className='w-12 h-12 rounded-md bg-green-400 justify-center items-center'>
@@ -64,7 +66,9 @@ const TeamManagement = () => {
                                 </View>
                                 <Text className='text-white font-semibold'>Danh mục</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7}>
+                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => {
+                                router.push('/(team)/comic')
+                            }}>
                                 <View className='w-12 h-12 rounded-md bg-primary justify-center items-center'>
 
                                     <CustomIcon name='book' color={"white"} suppressHighlighting size={22} />
@@ -75,19 +79,23 @@ const TeamManagement = () => {
 
                         {/* row 2 */}
                         <View className='m-4 flex justify-between items-center flex-row'>
-                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => { }}>
+                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => {
+                                router.push('/(team)/member')
+                            }}>
                                 <View className='w-12 h-12 rounded-md bg-primary justify-center items-center'>
                                     <CustomIcon name='people' color={"white"} suppressHighlighting size={22} />
                                 </View>
                                 <Text className='text-white font-semibold'>Thành viên</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7}>
+                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => {
+                                router.push('/(team)/post')
+                            }}>
                                 <View className='w-12 h-12 rounded-md bg-green-400 justify-center items-center'>
                                     <CustomIcon name='document-text' color={"white"} suppressHighlighting size={22} />
                                 </View>
                                 <Text className='text-white font-semibold'>Bài đăng</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => router.back()}>
+                            <TouchableOpacity className='flex justify-center items-center gap-2 w-[30%]' activeOpacity={0.7} onPress={() => router.replace("/(tabs)/account")}>
                                 <View className='w-12 h-12 rounded-md bg-blue-300 justify-center items-center'>
 
                                     <CustomIcon name='arrow-back' color={"white"} suppressHighlighting size={22} />

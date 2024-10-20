@@ -1,20 +1,22 @@
-import { Image, Modal, Text, TouchableOpacity, View, Pressable } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import { Image, Text, TouchableOpacity, View, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, } from '@/constants'
 import { router } from 'expo-router'
 import { Appwrite } from '@/configs'
 import { useTeamStore, useUserStore } from '@/store'
 import { ModalTeam, ModalTeamJoin } from '@/components'
-import { Team } from '@/types'
+import { MaterialIndicator } from 'react-native-indicators'
 
 const Account = () => {
     const { user, reset: resetStoreUser } = useUserStore()
     const { team, setTeam, reset: resetTeam } = useTeamStore()
     const [visibleModal, setVisibleModal] = useState(false)
     const [visibleModalJoin, setVisibleModalJoin] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     // handle
     const logout = async () => {
+        setIsLoading(true)
         try {
             await Appwrite.auth.logOut()
             resetStoreUser()
@@ -22,19 +24,10 @@ const Account = () => {
             router.replace('/(auth)/login')
         } catch (error) {
             console.error(error)
+        } finally {
+            setIsLoading(false)
         }
     }
-
-    useLayoutEffect(() => {
-        if (!team && user?.translationTeams) {
-            Appwrite.team.getTeamInfo(user!.translationTeams!.$id).then((_team) => {
-                if (_team) {
-                    setTeam(_team as unknown as Team);
-                }
-            });
-        }
-
-    }, [])
 
     return (
         <SafeAreaView className='h-full w-full flex-1' style={{ backgroundColor: Colors.Secondary_1 }}>
@@ -130,7 +123,12 @@ const Account = () => {
                                 activeOpacity={0.8}
                                 onPress={logout}
                             >
-                                <View className='w-full'>
+                                <View className='w-full flex-row justify-between'>
+                                    {isLoading && (
+                                        <View className='mr-2'>
+                                            <MaterialIndicator size={18} color="#fff" />
+                                        </View>
+                                    )}
                                     <Text className='text-white text-base'>Đăng xuất</Text>
                                 </View>
                             </TouchableOpacity>

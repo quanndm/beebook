@@ -21,10 +21,12 @@ const index = () => {
                     setUser(user);
                     setIsLoggedIn(true);
 
-                    const team = await Appwrite.team.getTeamInfo(user.translationTeams!.$id);
-                    if (team) {
-                        setTeam(team as unknown as Team);
-                    }
+                    await Appwrite.team.getTeamInfo(user.translationTeams?.$id!).then((team) => {
+                        if (team) {
+                            setTeam(team as unknown as Team);
+                        }
+                    });
+
                 } else {
                     setUser(null);
                     setIsLoggedIn(false);

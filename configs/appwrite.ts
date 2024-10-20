@@ -1,6 +1,6 @@
 import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity, Permission, Role } from 'react-native-appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID } from '@env'
-import { FormCreateTeam, RegisterForm, Team, User } from '@/types';
+import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID, APPWRITE_COMIC_CATEGORY_COLLECTION_ID } from '@env'
+import { ComicCategory, FormCreateTeam, RegisterForm, Team, User } from '@/types';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -11,6 +11,7 @@ const appwriteConfig = {
     databaseId: APPWRITE_DATABASE_ID,
     userCollectionId: APPWRITE_USER_COLLECTION_ID,
     translationTeamCollectionId: APPWRITE_TRANSLATION_TEAM_COLLECTION_ID,
+    comicCategoryCollectionId: APPWRITE_COMIC_CATEGORY_COLLECTION_ID,
     fileStorageId: APPWRITE_FILE_STORAGE_ID
 }
 
@@ -120,7 +121,7 @@ const updatePassword = async (currentPassword: string, newPassword: string) => {
 }
 
 //  file
-const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
+const uploadFileAndGetReviewUrl = async (file: ImagePicker.ImagePickerAsset) => {
     if (!file) return
 
     const { mimeType, fileName, uri, fileSize } = file;
@@ -146,9 +147,34 @@ const uploadFile = async (file: ImagePicker.ImagePickerAsset) => {
     }
 }
 
+const uploadFileAndGetViewUrl = async (file: ImagePicker.ImagePickerAsset) => {
+    if (!file) return
+
+    const { mimeType, fileName, uri, fileSize } = file;
+    const asset = { type: mimeType!, name: fileName!, size: fileSize!, uri: uri };
+
+    try {
+        const response = await storage.createFile(
+            appwriteConfig.fileStorageId,
+            ID.unique(),
+            asset
+        );
+
+        const fileUrl = storage.getFileView(
+            appwriteConfig.fileStorageId,
+            response.$id,
+        )
+
+
+        return { fileUrl, fileId: response.$id };
+    } catch (error) {
+        console.error(error)
+        throw new Error('Error uploading file')
+    }
+}
 const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
     try {
-        const response = await uploadFile(file);
+        const response = await uploadFileAndGetReviewUrl(file);
 
         if (user.avatarId) {
             await storage.deleteFile(appwriteConfig.fileStorageId, user.avatarId)
@@ -174,7 +200,7 @@ const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
 // translationTeam
 const createTeam = async (form: FormCreateTeam) => {
     try {
-        const response = await uploadFile(form.file);
+        const response = await uploadFileAndGetReviewUrl(form.file);
 
         const newTeam = await databases.createDocument(
             appwriteConfig.databaseId,
@@ -248,6 +274,80 @@ const getTeamInfo = async (teamId: string) => {
         console.log(error)
     }
 }
+
+// Comic category
+
+const getComicCategories = async (): Promise<ComicCategory[] | undefined> => {
+    try {
+        const categories = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId
+        )
+
+        if (!categories.documents) {
+            return undefined
+        }
+
+        return categories.documents as unknown as ComicCategory[]
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const createComicCategory = async (name: string) => {
+    try {
+        const res = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            ID.unique(),
+            {
+                name
+            }
+        )
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const updateNameComicCategory = async (id: string, name: string) => {
+    try {
+        const res = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            id,
+            {
+                name
+            }
+        )
+        return res
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const deleteComicCategory = async (id: string) => {
+    try {
+        const res = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            id
+        );
+        const category = res as unknown as ComicCategory;
+        if (category.totalComic > 0) {
+            throw new Error('Category has comic')
+        }
+        const result = await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            id
+        )
+        return result;
+    } catch (error) {
+
+    }
+}
+
 // use this to handle function about authen - author
 const auth = {
     logIn,
@@ -264,13 +364,22 @@ const auth = {
 const team = {
     createTeam,
     jointTeam,
-    getTeamInfo
+    getTeamInfo,
+    leaveTeam
+}
+
+const comic = {
+    getComicCategories,
+    createComicCategory,
+    updateNameComicCategory,
+    deleteComicCategory
 }
 
 // export all functions
 export const Appwrite = {
     auth,
-    team
+    team,
+    comic
 }
 
-//  post, comment, translationTeam, translationTeam_detail, comic_category, comic, comic_chapter, bookmark, history
+//  post, comment, translationTeam, comic_category, comic, comic_chapter, bookmark, history

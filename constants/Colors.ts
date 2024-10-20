@@ -9,7 +9,4 @@ export const Colors = {
     Inactive: '#CDCDE0',
 }
 
-export const messageColor = {
-
-}
 

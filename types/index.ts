@@ -2,6 +2,8 @@ import { ActionBtn, AlertType, AuthWrapperProps, CustomBtnProps, CustomHeaderPro
 import { User, UserGlobalState, UserGlobalStoreActions } from "./User"
 import { Team, FormCreateTeam, TeamGlobalStore, TeamGlobalStoreActions } from "./Team"
 import { MessageModalStore, MessageModalStoreActions } from "./MessageModal"
+import { ComicCategory } from './Comic'
+
 export type {
     FormFieldProps,
     AuthWrapperProps,
@@ -16,5 +18,6 @@ export type {
     UserGlobalState,
     UserGlobalStoreActions,
     Team, FormCreateTeam, TeamGlobalStore, TeamGlobalStoreActions,
-    MessageModalStore, MessageModalStoreActions
+    MessageModalStore, MessageModalStoreActions,
+    ComicCategory
 }   
