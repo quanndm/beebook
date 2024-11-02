@@ -12,6 +12,8 @@ export type FormFieldProps = {
     secureTextEntry?: boolean;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad';
     editable?: boolean;
+    multiline?: boolean;
+    numberOfLines?: number;
 }
 
 export type AuthWrapperProps = {

@@ -24,4 +24,8 @@ declare module '@env' {
     export const APPWRITE_FILE_STORAGE_ID: string;
     export const APPWRITE_TRANSLATION_TEAM_COLLECTION_ID: string;
     export const APPWRITE_COMIC_CATEGORY_COLLECTION_ID: string;
+    export const APPWRITE_COMIC_COLLECTION_ID: string;
+    export const APPWRITE_COMIC_CHAPTER_COLLECTION_ID: string;
+    export const APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID: string;
+    export const APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID: string;
 }

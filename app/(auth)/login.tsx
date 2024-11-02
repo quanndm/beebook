@@ -58,6 +58,12 @@ const Login = () => {
             setUser(user)
             setIsLoggedIn(true)
 
+            await Appwrite.team.getTeamInfo(user.translationTeams?.$id!).then((team) => {
+                if (team) {
+                    setTeam(team as unknown as Team);
+                }
+            });
+
             setinfoModal({
                 header: 'Thông báo',
                 message: 'Đăng nhập thành công',

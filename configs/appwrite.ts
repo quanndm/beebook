@@ -1,6 +1,6 @@
 import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity, Permission, Role } from 'react-native-appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID, APPWRITE_COMIC_CATEGORY_COLLECTION_ID } from '@env'
-import { ComicCategory, FormCreateTeam, RegisterForm, Team, User } from '@/types';
+import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID, APPWRITE_COMIC_CATEGORY_COLLECTION_ID, APPWRITE_COMIC_COLLECTION_ID } from '@env'
+import { Comic, ComicCategory, FormCreateComic, FormCreateTeam, RegisterForm, Team, User } from '@/types';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -12,7 +12,8 @@ const appwriteConfig = {
     userCollectionId: APPWRITE_USER_COLLECTION_ID,
     translationTeamCollectionId: APPWRITE_TRANSLATION_TEAM_COLLECTION_ID,
     comicCategoryCollectionId: APPWRITE_COMIC_CATEGORY_COLLECTION_ID,
-    fileStorageId: APPWRITE_FILE_STORAGE_ID
+    fileStorageId: APPWRITE_FILE_STORAGE_ID,
+    comicCollectionId: APPWRITE_COMIC_COLLECTION_ID
 }
 
 const appwriteClient = new Client()
@@ -348,6 +349,148 @@ const deleteComicCategory = async (id: string) => {
     }
 }
 
+// Comic
+const getComics = async (translationTeam: Team) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            [Query.equal('translationTeam', translationTeam.$id)]
+        )
+
+        if (!res.documents) {
+            return []
+        }
+
+        return res.documents as unknown as Comic[]
+    } catch (error) {
+        throw new Error("Error getting comics");
+    }
+}
+
+const getComic = async (id: string) => {
+    try {
+        const res = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            id
+        )
+        return res as unknown as Comic;
+    } catch (error) {
+        throw new Error("Error getting comic");
+    }
+}
+
+const createComics = async (form: FormCreateComic) => {
+    try {
+        const response = await uploadFileAndGetViewUrl(form.file);
+
+        const newComic = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            ID.unique(),
+            {
+                name: form.name,
+                description: form.description,
+                comicCategory: form.category.$id,
+                translationTeam: form.translationTeam.$id,
+                totalChapter: 0,
+                thumbnail: response?.fileId,
+                thumbnailUrl: response?.fileUrl,
+                type: form.type
+            }
+        )
+        // update total comic in category
+        const category = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            form.category.$id
+        )
+        const totalComic = category.totalComic + 1;
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            form.category.$id,
+            {
+                totalComic
+            }
+        )
+        return newComic as unknown as Comic;
+    } catch (error) {
+        throw new Error("Error creating comic");
+    }
+}
+
+const updateComics = async (comic: Partial<Comic> & { file?: ImagePicker.ImagePickerAsset }) => {
+
+    if (comic.file) {
+        await storage.deleteFile(appwriteConfig.fileStorageId, comic.thumbnail!)
+
+        const response = await uploadFileAndGetViewUrl(comic.file);
+        comic.thumbnail = response?.fileId;
+        comic.thumbnailUrl = (response?.fileUrl as unknown as string);
+    }
+    try {
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            comic?.$id!,
+            {
+                name: comic.name,
+                description: comic.description,
+                comicCategory: comic.comicCategory?.$id,
+                thumbnail: comic.thumbnail,
+                thumbnailUrl: comic.thumbnailUrl,
+                totalChapter: comic.totalChapter,
+                type: comic.type
+            }
+        )
+    } catch (error) {
+        throw new Error("Error updating comic");
+    }
+}
+
+const deleteComic = async (id: string, team: Team, categoryId: string) => {
+    try {
+        // kiểm tra chapter có tồn tại thì xoá
+        const res = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            id
+        )
+        if (res?.totalChapter > 0) {
+            throw new Error('Comic has chapter')
+        }
+
+        // delete thumbnail
+        await storage.deleteFile(appwriteConfig.fileStorageId, res.thumbnail)
+
+        await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            id
+        )
+
+        // update total comic in category
+        const category = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            categoryId
+        )
+        const totalComic = category.totalComic - 1;
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCategoryCollectionId,
+            category?.$id,
+            {
+                totalComic
+            }
+        )
+
+    } catch (error) {
+        throw new Error("Error deleting comic" + error);
+    }
+}
 // use this to handle function about authen - author
 const auth = {
     logIn,
@@ -372,7 +515,12 @@ const comic = {
     getComicCategories,
     createComicCategory,
     updateNameComicCategory,
-    deleteComicCategory
+    deleteComicCategory,
+    getComics,
+    getComic,
+    createComics,
+    updateComics,
+    deleteComic
 }
 
 // export all functions

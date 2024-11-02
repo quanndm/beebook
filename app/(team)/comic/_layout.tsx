@@ -6,6 +6,9 @@ const ComicLayout = () => {
         <>
             <Stack>
                 <Stack.Screen name="index" />
+                <Stack.Screen name="create" />
+                <Stack.Screen name="update-info" />
+                <Stack.Screen name="[comicId]" options={{ headerShown: false }} />
             </Stack>
         </>
     )
