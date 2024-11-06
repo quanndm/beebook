@@ -99,7 +99,7 @@ const ComicManagement = () => {
                                                 <Text className='text-white'>Name: {item.name}</Text>
                                                 <Text className='text-white'>Chapter: {item.totalChapter}</Text>
                                                 <Text className='text-white'>Nhóm dịch: {item.translationTeam.name}</Text>
-                                                <Text className='text-white'>Mô tả thêm: {item.description}</Text>
+                                                <Text className='text-white' numberOfLines={2}>Mô tả thêm: {item.description}</Text>
                                             </View>
 
 

@@ -7,6 +7,8 @@ const ComicDetailLayout = () => {
         <Stack>
             <Stack.Screen name="index" />
             <Stack.Screen name="edit" />
+            <Stack.Screen name="chapter" options={{ headerShown: false }} />
+
         </Stack>
     )
 }

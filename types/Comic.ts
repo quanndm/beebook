@@ -35,15 +35,17 @@ export type ChapterContent = {
     comicId: string;
     chapterId: string;
     chapterNumber: number;
-    content?: string;
+    content: string;
 }
 
-export type chapterContentImage = {
+export type ChapterContentImage = {
     $id: string;
     comicId: string;
     chapterId: string;
-    chapterContentId: string;
-
+    chapterNumber: number;
+    order: number;
+    imageId: string;
+    imageUrl: string;
 }
 
 export type FormCreateComic = {

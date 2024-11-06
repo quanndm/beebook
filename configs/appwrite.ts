@@ -1,7 +1,21 @@
 import { Client, Account, ID, Avatars, Databases, Query, Storage, ImageGravity, Permission, Role } from 'react-native-appwrite';
-import { APPWRITE_DATABASE_ID, APPWRITE_ENDPOINT, APPWRITE_FILE_STORAGE_ID, APPWRITE_PLATFORM, APPWRITE_PROJECT_ID, APPWRITE_USER_COLLECTION_ID, APPWRITE_TRANSLATION_TEAM_COLLECTION_ID, APPWRITE_COMIC_CATEGORY_COLLECTION_ID, APPWRITE_COMIC_COLLECTION_ID } from '@env'
+import {
+    APPWRITE_DATABASE_ID,
+    APPWRITE_ENDPOINT,
+    APPWRITE_FILE_STORAGE_ID,
+    APPWRITE_PLATFORM,
+    APPWRITE_PROJECT_ID,
+    APPWRITE_USER_COLLECTION_ID,
+    APPWRITE_TRANSLATION_TEAM_COLLECTION_ID,
+    APPWRITE_COMIC_CATEGORY_COLLECTION_ID,
+    APPWRITE_COMIC_COLLECTION_ID,
+    APPWRITE_COMIC_CHAPTER_COLLECTION_ID,
+    APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID,
+    APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID
+} from '@env'
 import { Comic, ComicCategory, FormCreateComic, FormCreateTeam, RegisterForm, Team, User } from '@/types';
 import * as ImagePicker from 'expo-image-picker';
+import { ChapterContent, ChapterContentImage, ComicChapter } from '@/types/Comic';
 
 
 const appwriteConfig = {
@@ -13,7 +27,10 @@ const appwriteConfig = {
     translationTeamCollectionId: APPWRITE_TRANSLATION_TEAM_COLLECTION_ID,
     comicCategoryCollectionId: APPWRITE_COMIC_CATEGORY_COLLECTION_ID,
     fileStorageId: APPWRITE_FILE_STORAGE_ID,
-    comicCollectionId: APPWRITE_COMIC_COLLECTION_ID
+    comicCollectionId: APPWRITE_COMIC_COLLECTION_ID,
+    comicChapterCollectionId: APPWRITE_COMIC_CHAPTER_COLLECTION_ID,
+    comicChapterContentCollectionId: APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID,
+    comicChapterContentImageCollectionId: APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID
 }
 
 const appwriteClient = new Client()
@@ -491,7 +508,207 @@ const deleteComic = async (id: string, team: Team, categoryId: string) => {
         throw new Error("Error deleting comic" + error);
     }
 }
-// use this to handle function about authen - author
+
+// chapter
+const getChapters = async (comicId: string) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterCollectionId,
+            [Query.equal('comicId', comicId)]
+        )
+
+        if (!res.documents) {
+            return []
+        }
+
+        return res.documents as unknown as ComicChapter[]
+    } catch (error) {
+        throw new Error("Error getting chapters: " + error);
+    }
+}
+
+//  use this function to get chapter content - novel
+const getChapter = async (chapterId: string) => {
+    try {
+        const res = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterCollectionId,
+            chapterId
+        )
+
+        return res as unknown as ComicChapter;
+    } catch (error) {
+        throw new Error("Error getting chapter: " + error);
+    }
+}
+
+const getChapterContent = async (chapterId: string) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterContentCollectionId,
+            [Query.equal('chapterId', chapterId)]
+        )
+        if (!res.documents) {
+            return undefined
+        }
+        return res.documents[0] as unknown as ChapterContent;
+    } catch (error) {
+        throw new Error("Error getting chapter content: " + error);
+    }
+}
+
+//  use this function to get chapter content - comic
+const getChapterContentImages = async (comicId: string, chapterId: string) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterContentImageCollectionId,
+            [Query.and([Query.equal('comicId', comicId), Query.equal('chapterId', chapterId)]), Query.orderAsc("order")]
+        )
+
+        if (!res.documents) {
+            return []
+        }
+
+        return res.documents as unknown as ChapterContentImage[]
+    } catch (error) {
+        throw new Error("Error getting chapter content images: " + error);
+    }
+}
+
+const createChapterNovel = async (chapterComic: Omit<Partial<ComicChapter>, "$id">, chapterContent: Omit<Partial<ChapterContent>, "$id">, comic: Comic) => {
+    try {
+        // create chapter
+        const comicChapter = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterCollectionId,
+            ID.unique(),
+            {
+                comicId: comic.$id,
+                chapterNumber: chapterComic.chapterNumber,
+                name: chapterComic.name,
+                type: chapterComic.type
+            }
+        )
+        // create chapter content
+        const res = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterContentCollectionId,
+            ID.unique(),
+            {
+                ...chapterContent,
+                chapterId: comicChapter.$id
+            }
+        )
+
+        // update total chapter in comic
+        const totalChapter = comic.totalChapter + 1;
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            comic.$id!,
+            {
+                totalChapter
+            }
+        )
+
+
+        return res as unknown as ChapterContent;
+    } catch (error) {
+        throw new Error("Error creating chapter: " + error);
+    }
+}
+
+// WARNING: test this function
+const createChapterComic = async (chapterContent: Omit<ChapterContentImage, "$id" | "imageId" | "imageUrl">,
+    ImageOrder: {
+        order: number,
+        image: ImagePicker.ImagePickerAsset
+    }[], comic: Comic) => {
+    try {
+        for (let item of ImageOrder) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const response = await uploadFileAndGetViewUrl(item.image);
+            await databases.createDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.comicChapterContentImageCollectionId,
+                ID.unique(),
+                {
+                    ...chapterContent,
+                    order: item.order,
+                    imageId: response?.fileId,
+                    imageUrl: response?.fileUrl
+                }
+            );
+        }
+
+        // update total chapter in comic
+        const totalChapter = comic.totalChapter + 1;
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            comic.$id!,
+            {
+                totalChapter
+            }
+        )
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const updateChapterNovel = async (comicChapter: Partial<ComicChapter>, chapterContent: Partial<ChapterContent>) => {
+    try {
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterCollectionId,
+            comicChapter.$id!,
+            {
+                name: comicChapter.name
+            }
+        )
+
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicChapterContentCollectionId,
+            chapterContent.$id!,
+            {
+                content: chapterContent.content
+            }
+        )
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const deleteChapterContent = async (chapterContent: ChapterContent, comic: Comic) => {
+    try {
+        if (comic.totalChapter == chapterContent.chapterNumber) {
+
+            await databases.deleteDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.comicChapterContentCollectionId,
+                chapterContent.$id!
+            )
+
+            // update total chapter in comic
+            const totalChapter = comic.totalChapter - 1;
+            await databases.updateDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.comicCollectionId,
+                comic.$id!,
+                {
+                    totalChapter
+                }
+            )
+        }
+    } catch (error) {
+        throw new Error("Error deleting chapter: " + error);
+    }
+}
+//  authen - author
 const auth = {
     logIn,
     logOut,
@@ -503,7 +720,7 @@ const auth = {
 
 }
 
-// use this to handle function about team
+//  team
 const team = {
     createTeam,
     jointTeam,
@@ -511,6 +728,7 @@ const team = {
     leaveTeam
 }
 
+// comic
 const comic = {
     getComicCategories,
     createComicCategory,
@@ -523,11 +741,24 @@ const comic = {
     deleteComic
 }
 
+// chapter
+const chapter = {
+    getChapter,
+    getChapters,
+    getChapterContent,
+    getChapterContentImages,
+    createChapterComic,
+    createChapterNovel,
+    updateChapterNovel,
+    deleteChapterContent
+}
+
 // export all functions
 export const Appwrite = {
     auth,
     team,
-    comic
+    comic,
+    chapter
 }
 
 //  post, comment, translationTeam, comic_category, comic, comic_chapter, bookmark, history

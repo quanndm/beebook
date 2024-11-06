@@ -1,14 +1,14 @@
-import { View, Text, TouchableOpacity, SafeAreaView, FlatList, Image } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView, FlatList, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { router, Stack, useLocalSearchParams } from 'expo-router'
 import { Appwrite } from '@/configs'
-import { Comic } from '@/types'
+import { Comic, ComicChapter } from '@/types'
 import { Colors } from '@/constants'
 import { CustomIcon } from '@/components'
 import { MaterialIndicator } from 'react-native-indicators'
 import { useMessageModalStore, useTeamStore } from '@/store'
 
-// #TODO: design comic detail screen
+
 const ComicDetail = () => {
     const { setinfoModal, closeModal, resetModal } = useMessageModalStore()
     const { team } = useTeamStore()
@@ -16,8 +16,9 @@ const ComicDetail = () => {
     const [comic, setcComic] = useState<Comic | undefined>(undefined)
     const [isLoading, setIsLoading] = useState(false)
     const [submitLoading, setSubmitLoading] = useState(false)
-    const [listChapter, setListChapter] = useState([] as any)
+    const [listChapter, setListChapter] = useState<ComicChapter[] | undefined>([])
     const [isDelete, setIsDelete] = useState(false)
+    const [refreshing, setRefreshing] = React.useState(false);
     const getComicDetail = async () => {
         try {
             setIsLoading(true)
@@ -28,6 +29,19 @@ const ComicDetail = () => {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    const getChapterList = async () => {
+        try {
+            const res = await Appwrite.chapter.getChapters(comicId as string)
+            setListChapter(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const load = async () => {
+        await Promise.all([getComicDetail(), getChapterList()])
     }
 
     const deleteComic = async () => {
@@ -70,8 +84,22 @@ const ComicDetail = () => {
             }
         })
     }
+
+    const goCreateChapter = () => {
+        if (comic?.type === 'comic') {
+            router.push(`/comic/${comicId}/chapter/create-comic`)
+        } else {
+            router.push(`/comic/${comicId}/chapter/create-novel`)
+        }
+    }
+    const onRefresh = React.useCallback(async () => {
+        setRefreshing(true);
+        await load()
+        setRefreshing(false);
+    }, []);
+
     useLayoutEffect(() => {
-        getComicDetail()
+        load()
     }, [])
 
     useEffect(() => {
@@ -100,8 +128,11 @@ const ComicDetail = () => {
                     headerRight: () => {
                         return (
                             <View className='flex-row gap-3 justify-center items-center'>
+                                <TouchableOpacity onPress={goCreateChapter} >
+                                    <CustomIcon name="add" size={32} color="#fff" />
+                                </TouchableOpacity>
                                 <TouchableOpacity onPress={() => router.replace(`/comic/${comicId}/edit`)} >
-                                    <CustomIcon name="create-outline" size={26} color="#fff" />
+                                    <CustomIcon name="create-outline" size={28} color="#fff" />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={setInfoWarningAlert} disabled={submitLoading} >
                                     {submitLoading ? (
@@ -124,6 +155,7 @@ const ComicDetail = () => {
                 <FlatList
                     data={listChapter}
                     keyExtractor={(item) => item.$id}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     ListHeaderComponent={() => {
                         return (
                             <View className='my-3'>
@@ -164,16 +196,36 @@ const ComicDetail = () => {
                                 <View>
                                     <View className='border-b border-white mx-5 mt-5' />
                                 </View>
-                                <View className='mx-5 mt-3'>
-                                    <Text className='text-white'> {comic?.description} </Text>
+                                <View className='mx-5 mt-3 h-[300px]'>
+                                    <Text className='text-white flex-wrap' > {comic?.description} </Text>
+                                </View>
+                                <View>
+                                    <View className='border-b border-white mx-5 mt-5' />
                                 </View>
                             </View>
                         )
                     }}
                     renderItem={({ item }) => {
                         return (
-                            <View className='bg-white p-4 flex-row items-center justify-between'>
-                                <Text>Item</Text>
+                            <View className=' mx-5 flex-row items-center justify-between'>
+                                <View className='flex-row justify-center items-center gap-1'>
+                                    <Text className='text-white'>Chương {item.chapterNumber}:</Text>
+                                    <Text className='text-white'>{item.name}</Text>
+                                </View>
+                                <View className='flex-row gap-3'>
+
+                                    <TouchableOpacity onPress={() => router.push(`/comic/${comicId}/chapter/${item.$id}/update`)}>
+                                        <CustomIcon name="create-outline" size={24} color="#fff" />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )
+                    }}
+
+                    ListEmptyComponent={() => {
+                        return (
+                            <View className='flex-1 justify-center items-center'>
+                                <Text className='text-white'>Không có chương nào</Text>
                             </View>
                         )
                     }}

@@ -13,7 +13,7 @@ const CustomInput = (props: FormFieldProps) => {
             {label && <Text className='text-base text-gray-100'>{label}</Text>}
             <View className='border-2 border-gray-400 w-full  px-4 bg-black-100 rounded-2xl focus:border-primary items-center flex-row '
                 style={[
-                    { minHeight: heightInput ?? 64, backgroundColor: "#3D3D3D", maxHeight: 175},
+                    { minHeight: heightInput ?? 64, backgroundColor: "#3D3D3D", maxHeight: 175 },
                 ]}
             >
                 <TextInput
@@ -33,6 +33,7 @@ const CustomInput = (props: FormFieldProps) => {
                     editable={editable ?? true}
                     multiline={multiline ?? false}
                     numberOfLines={numberOfLines ?? 1}
+
                 />
                 {secureTextEntry && (
                     <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
