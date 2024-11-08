@@ -2,29 +2,30 @@ import { View, Animated, FlatList, NativeSyntheticEvent, NativeScrollEvent, View
 import React, { useRef, useState } from 'react'
 import WideImageCarouselItem from './WideImageCarouselItem'
 import CarouselPagination from './CarouselPagination'
+import { Images } from '@/constants'
 
 // https://picsum.photos/800/400
 
 const data = [
     {
         id: 1,
-        image: 'https://picsum.photos/800/400',
+        image: Images.bg_carousel_1
     },
     {
         id: 2,
-        image: 'https://picsum.photos/800/400',
+        image: Images.bg_carousel_2
     },
     {
         id: 3,
-        image: 'https://picsum.photos/800/400',
+        image: Images.bg_carousel_3
     },
     {
         id: 4,
-        image: 'https://picsum.photos/800/400',
+        image: Images.bg_carousel_4
     },
     {
         id: 5,
-        image: 'https://picsum.photos/800/400',
+        image: Images.bg_carousel_5
     },
 ]
 

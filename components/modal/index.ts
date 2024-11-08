@@ -1,9 +1,9 @@
-import Comic from './search/Comic'
+import ComicTab from './search/ComicTab'
 import TranslateTeam from "./search/TranslateTeam";
 import MessageModal from "./MessageModal";
 
 export {
-    Comic,
+    ComicTab,
     TranslateTeam,
     MessageModal
 }

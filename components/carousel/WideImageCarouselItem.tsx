@@ -9,7 +9,7 @@ const WideImageCarouselItem = (props: any) => {
     return (
         <View style={{ width, height }} className='items-center rounded-2xl w-full px-4'>
             <Image
-                source={{ uri: item.image }}
+                source={item.image}
                 className='h-[180px] w-[100%] rounded-2xl'
                 resizeMode='cover'
             />

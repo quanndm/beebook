@@ -196,7 +196,7 @@ const ComicDetail = () => {
                                 <View>
                                     <View className='border-b border-white mx-5 mt-5' />
                                 </View>
-                                <View className='mx-5 mt-3 h-[300px]'>
+                                <View className='mx-5 mt-3 min-h-[300px]'>
                                     <Text className='text-white flex-wrap' > {comic?.description} </Text>
                                 </View>
                                 <View>
@@ -207,7 +207,7 @@ const ComicDetail = () => {
                     }}
                     renderItem={({ item }) => {
                         return (
-                            <View className=' mx-5 flex-row items-center justify-between'>
+                            <View className=' mx-5 flex-row items-center justify-between mb-2'>
                                 <View className='flex-row justify-center items-center gap-1'>
                                     <Text className='text-white'>Chương {item.chapterNumber}:</Text>
                                     <Text className='text-white'>{item.name}</Text>
@@ -225,7 +225,12 @@ const ComicDetail = () => {
                     ListEmptyComponent={() => {
                         return (
                             <View className='flex-1 justify-center items-center'>
-                                <Text className='text-white'>Không có chương nào</Text>
+                                {isLoading ? (
+                                    <MaterialIndicator color={Colors.Primary} />
+
+                                ) : (
+                                    <Text className='text-white mt-2 mb-4'>Không có chương nào</Text>
+                                )}
                             </View>
                         )
                     }}

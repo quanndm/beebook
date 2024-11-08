@@ -367,6 +367,22 @@ const deleteComicCategory = async (id: string) => {
 }
 
 // Comic
+const getAllComics = async () => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId
+        )
+
+        if (!res.documents) {
+            return []
+        }
+
+        return res.documents as unknown as Comic[]
+    } catch (error) {
+        throw new Error("Error getting comics" + error);
+    }
+}
 const getComics = async (translationTeam: Team) => {
     try {
         const res = await databases.listDocuments(
@@ -509,6 +525,23 @@ const deleteComic = async (id: string, team: Team, categoryId: string) => {
     }
 }
 
+const searchComic = async (query: string) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.comicCollectionId,
+            [Query.search('name', query)]
+        )
+
+        if (!res.documents) {
+            return []
+        }
+
+        return res.documents as unknown as Comic[]
+    } catch (error) {
+        throw new Error("Error searching comic" + error);
+    }
+}
 // chapter
 const getChapters = async (comicId: string) => {
     try {
@@ -558,6 +591,7 @@ const getChapterContent = async (chapterId: string) => {
         throw new Error("Error getting chapter content: " + error);
     }
 }
+
 
 //  use this function to get chapter content - comic
 const getChapterContentImages = async (comicId: string, chapterId: string) => {
@@ -730,6 +764,8 @@ const team = {
 
 // comic
 const comic = {
+    searchComic,
+    getAllComics,
     getComicCategories,
     createComicCategory,
     updateNameComicCategory,

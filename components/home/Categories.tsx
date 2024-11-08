@@ -6,7 +6,7 @@ import { router } from 'expo-router'
 
 const Categories = () => {
     const handlePress = () => {
-        router.push("/comic/discover")
+        router.push("/comics/discover")
     }
     return (
         <View className='flex-1 w-full  py-4'>

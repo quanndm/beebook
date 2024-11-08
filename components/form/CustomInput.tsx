@@ -5,7 +5,7 @@ import { CustomIcon } from '../common/CustomIcon'
 
 
 const CustomInput = (props: FormFieldProps) => {
-    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput, secureTextEntry, editable, multiline, numberOfLines } = props
+    const { label, value, onChangeText, placeholder, customContainerStyleClassName, keyboardType, isSearch, heightInput, secureTextEntry, editable, multiline, numberOfLines, callbackSearch } = props
     const [showPassword, setShowPassword] = useState(secureTextEntry)
 
     return (
@@ -22,7 +22,7 @@ const CustomInput = (props: FormFieldProps) => {
                     onSubmitEditing={() => {
                         Keyboard.dismiss()
                         if (isSearch) {
-                            Alert.alert('Search', value)
+                            callbackSearch?.()
                         }
                     }}
                     keyboardType={keyboardType}
@@ -44,7 +44,7 @@ const CustomInput = (props: FormFieldProps) => {
                     <TouchableOpacity
                         onPress={() => {
                             Keyboard.dismiss()
-                            Alert.alert('Search', value)
+                            callbackSearch?.()
                         }}
                     >
                         <CustomIcon name='search-outline' size={24} color='#8b8b8f' />

@@ -40,7 +40,7 @@ export default function RootLayout() {
                         animation: 'slide_from_right',
                     }}
                 />
-                <Stack.Screen name="comic" options={{ headerShown: false, }} />
+                <Stack.Screen name="comics" options={{ headerShown: false, }} />
                 <Stack.Screen name="(team)" options={{ headerShown: false, }} />
             </Stack>
 

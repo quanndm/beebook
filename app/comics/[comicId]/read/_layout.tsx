@@ -5,7 +5,7 @@ const ComicReadLayout = () => {
     return (
         <>
             <Stack>
-                <Stack.Screen name="[chapter]" />
+                <Stack.Screen name="[chapterId]" />
             </Stack>
         </>
     )

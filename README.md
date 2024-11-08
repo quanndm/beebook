@@ -65,7 +65,7 @@ You can start developing by editing the files inside the **app** directory. This
 - [x] Translation team: Insert a new category for a comic,  update name of category, delete the category if the comic doesn't exist.
 - [x] Translation team: insert/update/delete comics
 - [x] Translation team: insert/update chapters of comics (only novel type)
-- [ ] Search, read comics (anyone)
+- [x] Search, read comics (anyone)
 - [ ] Save comics (user has logged in)
 - [ ] Feed feature: Other users can like, comment on any post if logged in
 - [ ] Feed feature: Translation team can create/update/delete posts

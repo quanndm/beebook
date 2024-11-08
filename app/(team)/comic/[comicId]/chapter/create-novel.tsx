@@ -43,7 +43,7 @@ const CreateNovelChapter = () => {
                 chapterNumber: form.chapterNumber,
                 type: form.type,
                 comicId: comicId as string,
-                name: form.name,
+                name: form.name.trim(),
             }
 
             const chapterContent: Omit<Partial<ChapterContent>, "$id"> = {
@@ -54,7 +54,7 @@ const CreateNovelChapter = () => {
 
             await Appwrite.chapter.createChapterNovel(chapterComic, chapterContent, comic!)
 
-            router.replace(`/app/(team)/comic/${comicId}`)
+            router.push(`/(team)/comic/${comicId}`)
         } catch (error) {
             console.log(error)
         } finally {

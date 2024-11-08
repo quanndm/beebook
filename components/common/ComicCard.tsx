@@ -4,8 +4,8 @@ import { Images } from '@/constants'
 import { router } from 'expo-router'
 
 type ComicCardProps = {
-    id: number
-    image: ImageSourcePropType
+    id: string
+    image: string
     title: string
     chapter: number
     customContainerClassName?: string
@@ -13,10 +13,10 @@ type ComicCardProps = {
 
 const ComicCard = (props: ComicCardProps) => {
 
-    const { customContainerClassName } = props
+    const { customContainerClassName, id, image, title, chapter, } = props
 
     const handleClick = () => {
-        router.push(`/comic/${props.id}`)
+        router.push(`/comics/${id}`)
     }
 
     return (
@@ -25,9 +25,9 @@ const ComicCard = (props: ComicCardProps) => {
             activeOpacity={0.7}
             onPress={handleClick}
         >
-            <Image source={Images.temp_bg_comic_1} resizeMode='cover' className='w-[150px] h-[230px] rounded-2xl' />
-            <Text numberOfLines={1} ellipsizeMode='tail' className='text-white font-semibold'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, deserunt?</Text>
-            <Text className='text-gray-400 text-xs'>Chương 1</Text>
+            <Image source={{ uri: image }} resizeMode='cover' className='w-[150px] h-[230px] rounded-2xl' />
+            <Text numberOfLines={1} ellipsizeMode='tail' className='text-white font-semibold'>{title}</Text>
+            <Text className='text-gray-400 text-xs'>Chương {chapter}</Text>
         </TouchableOpacity >
     )
 }

@@ -15,6 +15,12 @@ declare module '*.gif' {
     export default value;
 }
 
+declare module '*.webp' {
+    const value: import('react-native').ImageSourcePropType;
+    export default value;
+}
+
+
 declare module '@env' {
     export const APPWRITE_ENDPOINT: string;
     export const APPWRITE_PROJECT_ID: string;

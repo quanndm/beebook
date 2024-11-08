@@ -1,13 +1,28 @@
 import { View, Text, ScrollView, TouchableOpacity, Image, RefreshControl, FlatList, Alert } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors, Comics as fakeDataComic } from '@/constants'
 import { Categories, ComicHorizontalList, ComicRanking, CustomIcon, WideImageCarousel } from '@/components'
+import { Comic } from '@/types'
+import { Appwrite } from '@/configs'
 
 const Home = () => {
+    const [comics, setComics] = useState<Comic[] | undefined>([])
+    const loadComics = async () => {
+        try {
+            const res = await Appwrite.comic.getAllComics()
+            setComics(res)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const onPressBookIcon = () => {
         Alert.alert("test")
     }
+
+    useLayoutEffect(() => {
+        loadComics()
+    }, [])
     return (
         <SafeAreaView
             className={`flex-1 w-full h-full`}
@@ -54,7 +69,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <ComicHorizontalList data={fakeDataComic} />
+                        <ComicHorizontalList data={comics} />
                     </View>
                 </View>
 
@@ -79,7 +94,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <ComicHorizontalList data={fakeDataComic} />
+                        <ComicHorizontalList data={comics} />
                     </View>
                 </View>
 
@@ -93,7 +108,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <ComicHorizontalList data={fakeDataComic} />
+                        <ComicHorizontalList data={comics} />
                     </View>
                 </View>
 
@@ -107,7 +122,7 @@ const Home = () => {
                     </View>
 
                     <View>
-                        <ComicHorizontalList data={fakeDataComic} />
+                        <ComicHorizontalList data={comics} />
                     </View>
                 </View>
 

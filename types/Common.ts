@@ -9,6 +9,7 @@ export type FormFieldProps = {
     placeholder?: string;
     customContainerStyleClassName?: string;
     isSearch?: boolean;
+    callbackSearch?: () => void;
     secureTextEntry?: boolean;
     keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad' | 'number-pad';
     editable?: boolean;

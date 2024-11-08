@@ -1,6 +1,7 @@
+import { Comic } from "@/types";
 import { Images } from "./Images";
 
-export const Comics = [
+export const Comics: Comic[] = [
     {
         id: 1,
         image: Images.temp_bg_comic_1,

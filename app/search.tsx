@@ -1,13 +1,13 @@
 import { View, useWindowDimensions } from 'react-native'
 import React, { useState } from 'react'
 import { Stack } from 'expo-router';
-import { Comic, CustomHeaderModal, TabBarTop, TranslateTeam } from '@/components';
+import { ComicTab, CustomHeaderModal, TabBarTop, TranslateTeam } from '@/components';
 import { SceneMap, TabView } from 'react-native-tab-view';
 
 
 
 const renderScene = SceneMap({
-    comic: Comic,
+    comic: ComicTab,
     translationTeam: TranslateTeam,
 });
 

@@ -12,6 +12,12 @@ import category_xuyenkhong from "@/assets/images/category_xuyenkhong.png";
 import temp_bg_comic_1 from '@/assets/images/temp_bg_comic1.jpg'
 import ellipse_loading from '@/assets/images/Ellipsis.gif'
 
+import bg_carousel_1 from "@/assets/images/bg1.jpg";
+import bg_carousel_2 from "@/assets/images/bg2.jpg";
+import bg_carousel_3 from "@/assets/images/bg3.jpg";
+import bg_carousel_4 from "@/assets/images/bg4.jpg";
+import bg_carousel_5 from "@/assets/images/bg5.jpg";
+
 export const Images = {
     bg_beebook,
     beebook_icon,
@@ -22,5 +28,11 @@ export const Images = {
     category_ngontinh,
     category_xuyenkhong,
     temp_bg_comic_1,
-    ellipse_loading
+    ellipse_loading,
+    bg_carousel_1,
+    bg_carousel_2,
+    bg_carousel_3,
+    bg_carousel_4,
+    bg_carousel_5
+
 }

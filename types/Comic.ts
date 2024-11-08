@@ -27,6 +27,8 @@ export type ComicChapter = {
     name: string;
     type: ComicType;
     chapterNumber: number;
+    $createdAt?: string;
+    $updatedAt?: string
 }
 
 
