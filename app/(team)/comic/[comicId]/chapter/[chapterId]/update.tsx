@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { MaterialIndicator } from 'react-native-indicators'
 import { Colors } from '@/constants'
@@ -93,7 +93,7 @@ const UpdateChapter = () => {
             />
 
 
-            < SafeAreaView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
+            < ScrollView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
                 <View className='mt-8 px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
                     <View className='my-3'>
                         <Text className='text-white text-base'>
@@ -131,7 +131,7 @@ const UpdateChapter = () => {
                         />
                     </View>
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         </>
     )
 }

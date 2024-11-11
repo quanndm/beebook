@@ -11,9 +11,10 @@ import {
     APPWRITE_COMIC_COLLECTION_ID,
     APPWRITE_COMIC_CHAPTER_COLLECTION_ID,
     APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID,
-    APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID
+    APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID,
+    APPWRITE_BOOKMARK_COLLECTION_ID
 } from '@env'
-import { Comic, ComicCategory, FormCreateComic, FormCreateTeam, RegisterForm, Team, User } from '@/types';
+import { BookMark, Comic, ComicCategory, FormCreateComic, FormCreateTeam, RegisterForm, Team, User } from '@/types';
 import * as ImagePicker from 'expo-image-picker';
 import { ChapterContent, ChapterContentImage, ComicChapter } from '@/types/Comic';
 
@@ -30,7 +31,8 @@ const appwriteConfig = {
     comicCollectionId: APPWRITE_COMIC_COLLECTION_ID,
     comicChapterCollectionId: APPWRITE_COMIC_CHAPTER_COLLECTION_ID,
     comicChapterContentCollectionId: APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID,
-    comicChapterContentImageCollectionId: APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID
+    comicChapterContentImageCollectionId: APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID,
+    bookMarkCollectionId: APPWRITE_BOOKMARK_COLLECTION_ID
 }
 
 const appwriteClient = new Client()
@@ -210,7 +212,7 @@ const updateAvatar = async (file: ImagePicker.ImagePickerAsset, user: User) => {
 
         return result;
     } catch (error) {
-        console.log(error)
+        throw new Error('Error updating avatar' + error)
     }
 
 }
@@ -244,7 +246,7 @@ const createTeam = async (form: FormCreateTeam) => {
         // ]
         return newTeam;
     } catch (error) {
-        console.log(error)
+        throw new Error('Error creating team' + error)
     }
 }
 
@@ -274,7 +276,7 @@ const jointTeam = async (code: string, user: User) => {
 
         return result;
     } catch (error) {
-        console.log(error)
+        throw new Error("Error joining team" + error)
     }
 }
 
@@ -289,7 +291,7 @@ const getTeamInfo = async (teamId: string) => {
         )
         return team;
     } catch (error) {
-        console.log(error)
+        throw new Error("Error getting team info" + error)
     }
 }
 
@@ -308,7 +310,7 @@ const getComicCategories = async (): Promise<ComicCategory[] | undefined> => {
 
         return categories.documents as unknown as ComicCategory[]
     } catch (error) {
-        console.log(error)
+        throw new Error("Error getting comic categories" + error);
     }
 }
 
@@ -324,7 +326,7 @@ const createComicCategory = async (name: string) => {
         )
         return res
     } catch (error) {
-        console.log(error)
+        throw new Error("Error creating comic category" + error);
     }
 }
 
@@ -340,7 +342,7 @@ const updateNameComicCategory = async (id: string, name: string) => {
         )
         return res
     } catch (error) {
-        console.log(error)
+        throw new Error("Error updating comic category" + error);
     }
 }
 
@@ -525,6 +527,107 @@ const deleteComic = async (id: string, team: Team, categoryId: string) => {
     }
 }
 
+const addBookmark = async (comicId: string, user: User) => {
+    try {
+        const res1 = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            [Query.equal('userId', user?.$id)]
+        )
+        if (res1.documents.length > 0) {
+            await databases.updateDocument(
+                appwriteConfig.databaseId,
+                appwriteConfig.bookMarkCollectionId,
+                res1.documents[0]?.$id,
+                {
+                    comics: [...res1.documents[0].comics, comicId]
+                }
+            )
+            return
+        }
+
+        await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            ID.unique(),
+            {
+                userId: user?.$id,
+                comics: [comicId]
+            }
+        )
+        return
+    } catch (error) {
+        throw new Error("Error adding bookmark" + error);
+    }
+}
+
+const removeBookmark = async (comicId: string, user: User) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            [Query.equal('userId', user.$id)]
+        )
+
+        if (res.documents.length === 0) {
+            return
+        }
+
+        const bookmark = res.documents[0] as unknown as BookMark;
+        const comics = bookmark?.comics?.filter(item => item.$id !== comicId);
+
+        await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            bookmark.$id,
+            {
+                comics
+            }
+        )
+    } catch (error) {
+        throw new Error("Error removing bookmark" + error);
+    }
+}
+
+const checkBookmark = async (comicId: string, user: User) => {
+
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            [Query.equal('userId', user.$id)]
+        )
+        if (res.documents.length === 0) {
+            return false
+        }
+
+        const bookmark = res.documents[0] as unknown as BookMark;
+        const check = bookmark?.comics?.some(item => item.$id === comicId);
+
+        return check
+    } catch (error) {
+        throw new Error("Error checking bookmark" + error);
+    }
+}
+
+const getBookmark = async (user: User) => {
+    try {
+        const res = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.bookMarkCollectionId,
+            [Query.equal('userId', user.$id)]
+        )
+
+        if (res.documents.length === 0) {
+            return undefined
+        }
+
+        return res.documents[0] as unknown as BookMark;
+    } catch (error) {
+        throw new Error("Error getting bookmark" + error);
+    }
+}
+
 const searchComic = async (query: string) => {
     try {
         const res = await databases.listDocuments(
@@ -689,7 +792,7 @@ const createChapterComic = async (chapterContent: Omit<ChapterContentImage, "$id
             }
         )
     } catch (error) {
-        console.log(error)
+        throw new Error("Error creating chapter: " + error);
     }
 }
 
@@ -713,7 +816,7 @@ const updateChapterNovel = async (comicChapter: Partial<ComicChapter>, chapterCo
             }
         )
     } catch (error) {
-        console.log(error)
+        throw new Error("Error updating chapter: " + error);
     }
 }
 
@@ -774,7 +877,11 @@ const comic = {
     getComic,
     createComics,
     updateComics,
-    deleteComic
+    deleteComic,
+    addBookmark,
+    removeBookmark,
+    checkBookmark,
+    getBookmark
 }
 
 // chapter

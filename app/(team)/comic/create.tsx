@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { router, Stack } from 'expo-router'
 import { Colors } from '@/constants'
@@ -134,8 +134,8 @@ const CreateComic = () => {
                 }}
             />
 
-            < SafeAreaView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
-                <View className='mt-8 px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
+            < ScrollView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
+                <View className='my-8 px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
 
                     <View className='my-3'>
                         <Text className='text-white text-base'>
@@ -235,7 +235,7 @@ const CreateComic = () => {
                         </View>
                     </View>
                 </View>
-            </SafeAreaView >
+            </ScrollView >
         </>
     )
 }

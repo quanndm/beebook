@@ -1,17 +1,65 @@
-import { View, Text, Image, ScrollView } from 'react-native'
-import React from 'react'
-import { Comic } from '@/types'
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useLayoutEffect, useState } from 'react'
+import { Comic, User } from '@/types'
 import { MaterialIndicator } from 'react-native-indicators'
 import { Colors } from '@/constants'
+import { CustomIcon } from '../common'
+import { Appwrite } from '@/configs'
+import { useUserStore } from '@/store'
 
 type Props = {
+    comicId: string,
     comic: Comic,
     isLoading: boolean
 }
 
 const TabDetail = (props: Props) => {
-    const { comic, isLoading } = props
+    const { comic, isLoading, comicId } = props
+    const { user } = useUserStore()
+    const [checkBookmarkLoading, setCheckBookmarkLoading] = useState(false)
+    const [checkBookmark, setCheckBookmark] = useState(false)
 
+    const fnCheckBookmark = async () => {
+        if (!user) {
+            return
+        }
+
+        try {
+            setCheckBookmarkLoading(true)
+            const res = await Appwrite.comic.checkBookmark(comicId, user);
+            if (res) {
+                setCheckBookmark(true)
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCheckBookmarkLoading(false)
+        }
+    }
+
+    const handleBookmark = async () => {
+        if (!user) {
+            return
+        }
+        try {
+            setCheckBookmarkLoading(true)
+            if (!checkBookmark) {
+                await Appwrite.comic.addBookmark(comicId, user);
+                setCheckBookmark(true)
+            } else {
+                await Appwrite.comic.removeBookmark(comicId, user);
+                setCheckBookmark(false)
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setCheckBookmarkLoading(false)
+        }
+    }
+
+    useLayoutEffect(() => {
+        fnCheckBookmark()
+    }, [])
     return (
         <ScrollView>
             <View className='my-3' >
@@ -46,6 +94,25 @@ const TabDetail = (props: Props) => {
                         <View className='flex-row mb-2'>
                             <Text className='text-sm text-gray-400'>Số chương: </Text>
                             <Text className='text-sm text-white'>{comic?.totalChapter}</Text>
+                        </View>
+                        <View className='flex-1 flex-row justify-end'>
+                            <TouchableOpacity className='flex-row items-center bg-red-400 px-2 mt-5 rounded-lg'
+                                onPress={handleBookmark}
+                                disabled={checkBookmarkLoading || !user}
+                            >
+                                {checkBookmarkLoading ? (
+                                    <View>
+                                        <MaterialIndicator size={20} color={Colors.Primary} />
+                                    </View>
+                                ) : checkBookmark ? (
+                                    <CustomIcon name='close-outline' size={20} color="white" />
+                                ) : (
+                                    <CustomIcon name='bookmark' size={20} color="white" />
+                                )}
+                                <Text className='text-white ml-2'>
+                                    {checkBookmark ? "Bỏ theo dõi" : "Theo dõi"}
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>

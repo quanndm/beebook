@@ -123,7 +123,7 @@ const Account = () => {
                                 activeOpacity={0.8}
                                 onPress={logout}
                             >
-                                <View className='w-full flex-row justify-between'>
+                                <View className={`w-full flex-row ${!isLoading ? "justify-between" : ""}`}>
                                     {isLoading && (
                                         <View className='mr-2'>
                                             <MaterialIndicator size={18} color="#fff" />
@@ -135,7 +135,7 @@ const Account = () => {
                         </View>
                     </View>
                 </View>
-            </View>
+            </View >
             <ModalTeam
                 setVisible={setVisibleModal}
                 visible={visibleModal}
@@ -145,7 +145,7 @@ const Account = () => {
                 setVisible={setVisibleModalJoin}
                 visible={visibleModalJoin}
             />
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 

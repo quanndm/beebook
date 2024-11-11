@@ -50,7 +50,7 @@ const index = () => {
     }) => {
         switch (route.key) {
             case 'detail':
-                return <TabDetail comic={comic as Comic} isLoading={isLoading} />;
+                return <TabDetail comic={comic as Comic} isLoading={isLoading} comicId={comicId as string} />;
             case 'chapter':
                 return <TabChapter chapters={listChapter as ComicChapter[]} isLoading={isLoading} />;
             default:

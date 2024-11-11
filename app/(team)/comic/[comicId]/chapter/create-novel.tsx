@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import { router, Stack, useLocalSearchParams } from 'expo-router'
 import { CustomIcon, CustomInput } from '@/components'
@@ -11,6 +11,7 @@ const CreateNovelChapter = () => {
     const { comicId } = useLocalSearchParams()
     const [isSubmit, setIsSubmit] = useState(false)
     const [comic, setComic] = useState<Comic | undefined>(undefined)
+    const [isLoading, setIsLoading] = useState(false)
 
     const [form, setForm] = useState({
         name: '',
@@ -21,13 +22,17 @@ const CreateNovelChapter = () => {
 
     const loadComicDetail = async () => {
         try {
+            setIsLoading(true)
             const res = await Appwrite.comic.getComic(comicId as string)
             if (res) {
+
                 setComic(res)
                 setForm({ ...form, type: res.type, chapterNumber: res.totalChapter + 1 })
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -66,6 +71,15 @@ const CreateNovelChapter = () => {
         loadComicDetail()
     }, [])
 
+    if (isLoading) {
+        return (
+            <View className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
+                <MaterialIndicator color={Colors.Primary} />
+            </View>
+        )
+
+    }
+
     return (
         <>
             <Stack.Screen
@@ -99,8 +113,8 @@ const CreateNovelChapter = () => {
                 }}
             />
 
-            < SafeAreaView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
-                <View className='mt-8 px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
+            < ScrollView className='w-full h-full flex-1 p-4  grow' style={{ backgroundColor: Colors.Secondary_1 }}>
+                <View className='my-8 px-4 rounded-2xl ' style={{ backgroundColor: Colors.Secondary_2 }}>
                     <View className='my-3'>
                         <Text className='text-white text-base'>
                             Tên chương
@@ -138,7 +152,7 @@ const CreateNovelChapter = () => {
                         />
                     </View>
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         </>
     )
 }

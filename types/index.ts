@@ -4,6 +4,7 @@ import { Team, FormCreateTeam, TeamGlobalStore, TeamGlobalStoreActions } from ".
 import { MessageModalStore, MessageModalStoreActions } from "./MessageModal"
 import { ComicCategory, Comic, FormCreateComic, ComicType, ChapterContent, ChapterContentImage, ComicChapter } from './Comic'
 import { SearchGlobalStore, SearchGlobalStoreActions } from './Search'
+import { BookMark } from './BookMark'
 export type {
     FormFieldProps,
     AuthWrapperProps,
@@ -20,5 +21,6 @@ export type {
     Team, FormCreateTeam, TeamGlobalStore, TeamGlobalStoreActions,
     MessageModalStore, MessageModalStoreActions,
     ComicCategory, Comic, FormCreateComic, ComicType, ChapterContent, ChapterContentImage, ComicChapter,
-    SearchGlobalStore, SearchGlobalStoreActions
+    SearchGlobalStore, SearchGlobalStoreActions,
+    BookMark
 }   

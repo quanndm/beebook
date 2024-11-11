@@ -4,7 +4,7 @@ import React from 'react'
 const TranslationTeamTab = () => {
     return (
         <View>
-            <Text className='text-white'>TranslationTeamTab</Text>
+            {/* <Text className='text-white'>TranslationTeamTab</Text> */}
         </View>
     )
 }

@@ -34,4 +34,5 @@ declare module '@env' {
     export const APPWRITE_COMIC_CHAPTER_COLLECTION_ID: string;
     export const APPWRITE_COMIC_CHAPTER_CONTENT_COLLECTION_ID: string;
     export const APPWRITE_COMIC_CHAPTER_CONTENT_IMAGE_COLLECTION_ID: string;
+    export const APPWRITE_BOOKMARK_COLLECTION_ID: string;
 }

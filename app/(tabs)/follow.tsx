@@ -9,7 +9,7 @@ import { ComicsTab, ReadingTab, TabBarTop, TranslationTeamTab } from '@/componen
 const renderScene = SceneMap({
     comic: ComicsTab,
     translationTeam: TranslationTeamTab,
-    reading: ReadingTab,
+    // reading: ReadingTab,
 });
 
 const Following = () => {
@@ -19,7 +19,7 @@ const Following = () => {
     const [routes] = React.useState([
         { key: 'comic', title: 'Truyện' },
         { key: 'translationTeam', title: 'Nhóm dịch' },
-        { key: 'reading', title: 'Đang đọc' },
+        // { key: 'reading', title: 'Đang đọc' },
     ]);
 
 
@@ -28,13 +28,14 @@ const Following = () => {
             className={`flex-1 w-full h-full `}
             style={{ backgroundColor: Colors.Secondary_1 }}
         >
-            <TabView
+            {/* <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
                 onIndexChange={setIndex}
                 initialLayout={{ width: layout.width }}
                 renderTabBar={(props) => <TabBarTop {...props} />}
-            />
+            /> */}
+            <ComicsTab />
         </SafeAreaView>
     )
 }
